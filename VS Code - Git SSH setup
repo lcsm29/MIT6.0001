@@ -3,7 +3,7 @@ Windows
 # make a folder for git and go to the folder
 git init
 
-# generate key. do not change the name of key or the path. just press enter when it's asking for location/filename. 
+# generate key. do not change the default name or path for the key. just press enter when it's asking for location/filename. 
 # default location is %USERPROFILE%/.ssh/id_rsa (which usually is /c/Users/you/.ssh/id_rsa)
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
