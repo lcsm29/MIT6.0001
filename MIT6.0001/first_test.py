@@ -1,12 +1,11 @@
 print("this is my first try on git, as well as my first python code")
 print("second version test")
-print("git test")
-print("git test2")
-print("git test3")
-print("vscode git test")
-print("vscode final test")
-print("terminal test")
-print("VS TEST23546")
-print("VS code computer3 commit test")
-print("SSH terminal works and VS code works in certain condition")
-print("test")
+
+# git push on terminal works fine, while VS code doesn't work, unless I do this;
+# 1. start ssh-agent on bash
+# 2. code on bash to open VS code
+# 3. commit on VS code
+# Furthermore, it requires me to input SSH private key password every time.
+
+# So far, I found two work two workarounds.
+# a. using https instead of ssh. (git remote set-url origin https://github.com/USERNAME/REPOSITORY.git)
