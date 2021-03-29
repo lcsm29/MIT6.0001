@@ -14,7 +14,7 @@ print("second version test")
 # 
 
 # Disregard above. I think I found a solution.
-# name your public key as id.rsa
+# rename your private key as id.rsa (if it's not a rsa key, make one by using this ssh-keygen -t rsa -b 4096 –C "your_email@example.com")
 # place the file on %USERPROFILE%/.ssh/id.rsa (Linux ~/.ssh/id_rsa)
 # run below command on bash;
 # git config --global credential.helper 'store --file %USERPROFILE%/.ssh/id.rsa'
