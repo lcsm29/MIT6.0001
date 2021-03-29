@@ -1,0 +1,24 @@
+Windows
+
+# make a folder for git and go to the folder
+git init
+
+# generate key. do not change the name of key or the path. just press enter when it's asking for location/filename. 
+# default location is %USERPROFILE%/.ssh/id_rsa (which usually is /c/Users/you/.ssh/id_rsa)
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+# look up for public key and register the key on github.com account settings
+cat ~/.ssh/id_rsa (or ~/.ssh/id_rsa.pub)
+
+# start ssh-agent and add your private key
+eval `ssh-agent -s` (or start ssh-agent)
+ssh-add ~/.ssh/id_rsa
+
+# and the last step
+git config --global credential.helper 'store --file %USERPROFILE%/.ssh/id.rsa' 
+
+
+Linux difference
+default location would be /home/you/.ssh/id_rsa
+eval "$(ssh-agent -s)"
+and probably the last step isn't neccessary on Linux
