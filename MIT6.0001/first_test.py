@@ -1,7 +1,9 @@
 print("this is my first try on git, as well as my first python code")
 print("second version test")
 
-# git push on terminal works fine, while none of commands doesn't work on VS code (including push/pull/commit), unless I do this;
+# git push on terminal works fine,
+# but none of commands doesn't work on VS code (including push/pull/commit) and constantly gave me this error Git: git@github.com: Permission denied (publickey),
+# unless I do this;
 # 1. start ssh-agent on bash
 # 2. code on bash to open VS code
 # 3. commit on VS code
