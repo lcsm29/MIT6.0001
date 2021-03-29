@@ -11,4 +11,13 @@ print("second version test")
 
 # So far, I found two work two workarounds.
 # a. using https instead of ssh. (git remote set-url origin https://github.com/USERNAME/REPOSITORY.git)
-# testanothercomputer4
+# 
+
+# Disregard above. I think I found a solution.
+# name your public key as id.rsa
+# place the file on %USERPROFILE%/.ssh/id.rsa (Linux ~/.ssh/id_rsa)
+# run below command on bash;
+# git config --global credential.helper 'store --file %USERPROFILE%/.ssh/id.rsa'
+# So far, it works as intended. No login. No nothing. It just works.
+
+# Hopefully, Last test
