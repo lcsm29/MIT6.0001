@@ -1,3 +1,10 @@
+import math
+
+x=float(input("Enter number x:"))
+y=float(input("Enter number y:"))
+print("x**y =", x**y)
+print("log(x) =", math.log(x,2))
+
 '''
 Assignment:
 Write a program that does the following in order:
@@ -14,9 +21,3 @@ Enter number y: 3
 X**y = 8
 log(x) = 1
 '''
-import math
-
-x=float(input("Enter number x:"))
-y=float(input("Enter number y:"))
-print("x**y =", x**y)
-print("log(x) =", math.log(x,2))
