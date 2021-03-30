@@ -5,7 +5,7 @@ hi = "hello there"
 name = "ana"
 greet = hi + name  
 print(greet)
-greeting = hi + " " + name
+greeting = hi + " " + name   #another way of doing this; greeting = f"{hi} + {name}"
 print(greeting)
 silly = hi + (" " + name)*3
 print(silly)
