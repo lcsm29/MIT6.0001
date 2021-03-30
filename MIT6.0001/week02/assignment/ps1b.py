@@ -23,10 +23,12 @@ def calculator ():
 
     while current_savings < total_cost * portion_down_payment:
         months += 1
-        if (months%6 == 0):  #test case 2 and 3 gives me one less month with this
-            monthly_salary += monthly_salary * semi_annual_raise
+#        if (months%6 == 0):  #this location gives me one less month on test case 2 and 3 (but not on 1)
+#            monthly_salary += monthly_salary * semi_annual_raise
         monthly_return_on_investment = current_savings * r / 12
-        current_savings = current_savings + monthly_salary * portion_saved + monthly_return_on_investment
+        current_savings = current_savings + monthly_salary * portion_saved + monthly_return_on_investment        
+        if (months%6 == 0):  #while this location doesn't. this location assumes raise happens at month #7, #13, ... while the above location assumes month #6, #12.
+            monthly_salary += monthly_salary * semi_annual_raise
 
 def day_calculator (): #it starts off from the previous calculation to reduce the total number of loop executions. it's not working very well, but i'll leave it for now
     global current_savings
