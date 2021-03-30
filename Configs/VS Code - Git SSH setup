@@ -1,5 +1,7 @@
-Windows
+# git integration usually works out of the box, but sometimes it doesn't, especially when you go back and forth multiple devices/programs/etc.
+# if that happens, this might help.
 
+Windows
 # make a folder for git, and go to the folder, and;
 git init
 
@@ -14,17 +16,21 @@ cat ~/.ssh/id_rsa (or ~/.ssh/id_rsa.pub)
 eval `ssh-agent -s` (or start ssh-agent)
 ssh-add ~/.ssh/id_rsa
 
-# adding repo
-git remote add origin git@github.com:YOUR-USERNAME/YOUR-REPOSITORY.git
-# if it has been added via HTTPS, then;
-git remote set-url origin git@github.com:USERNAME/REPOSITORY.git
-git pull origin master (or whatever you set)
-
 # and the last step
 git config --global credential.helper 'store --file %USERPROFILE%/.ssh/id.rsa' 
 
 
-Linux difference
+Linux
 default location would be /home/you/.ssh/id_rsa
 eval "$(ssh-agent -s)"
-and probably the last step isn't neccessary on Linux
+the last step isn't neccessary on Linux
+
+# other things to do on fresh installation
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
+# adding repo
+git remote add origin git@github.com:YOUR-USERNAME/YOUR-REPOSITORY.git
+# if it has been added via HTTPS, then;
+git remote set-url origin git@github.com:USERNAME/REPOSITORY.git
+git pull origin master (or whatever branch name)
