@@ -1,50 +1,48 @@
 # version 0.1.210331
 # going to do some performance improvement
 # and some decluttering
+# version 0.11.210331 - did some decluttering
 
-total_cost = 1000000
+total_cost = 1_000_000
 portion_down_payment = 0.25
+target_savings = total_cost * portion_down_payment
+semi_annual_raise = 0.07
+r = 0.04
 
-def calculator (rate_mid):
+def bisection (monthly_salary):
+    rate_min, rate_max, mid = 0, 10000, 5000
+    rate_tolerance, savings_tolerance = 1, 100
+    search_counter = 0
+
+    if (calculator(rate_max) < target_savings):
+        print("It is not possible to pay the down payment in three years.")
+        return
+    elif (calculator(1) >= target_savings):
+        mid = 1
+    else:
+        while abs(calculator(mid) - target_savings) >= savings_tolerance and rate_max - rate_min >= rate_tolerance:
+            search_counter += 1
+            if (calculator(mid) >= target_savings):
+                rate_max = mid
+            else:
+                rate_min = mid
+            mid = (rate_min + rate_max) / 2
+
+    print(f"Best savings rate: {0.01*mid:.2f}%")
+    print(f"Steps in bisection search:​ {search_counter}")
+
+def calculator (mid):
     local_monthly_salary = monthly_salary
-    local_rate_mid = rate_mid * 0.0001
-    months = 0
-    current_savings = 0.0
-    semi_annual_raise = 0.07
-    r = 0.04
-    monthly_return_on_investment = current_savings * r / 12
+    local_mid = mid * 0.0001
+    current_savings, monthly_return, months = (0, )*3
+
     for months in range(36):
         months += 1
-        monthly_return_on_investment = current_savings * r / 12
-        current_savings = current_savings + local_monthly_salary * local_rate_mid + monthly_return_on_investment
+        monthly_return = current_savings * r / 12
+        current_savings = current_savings + local_monthly_salary * local_mid + monthly_return
         if (months%6 == 0):
             local_monthly_salary += local_monthly_salary * semi_annual_raise
     return current_savings
-
-def bisection (monthly_salary):
-    rate_min = 0
-    rate_max = 10000
-    rate_mid = (rate_min + rate_max) / 2
-    search_counter = 0
-    rate_tolerance = 1
-    savings_tolerance = 100
-
-    while (abs(calculator(rate_mid) - (total_cost * portion_down_payment)) >= savings_tolerance and (rate_max - rate_min) >= rate_tolerance):
-        search_counter += 1
-        if (calculator(rate_max) < total_cost * portion_down_payment):
-            print("It is not possible to pay the down payment in three years.")
-            break
-        elif (calculator(1) >= total_cost * portion_down_payment):
-            rate_mid = 1
-            break
-        elif (calculator(rate_mid) >= total_cost * portion_down_payment):
-            rate_max = rate_mid
-        elif (calculator(rate_mid) < total_cost * portion_down_payment):
-            rate_min = rate_mid
-        rate_mid = (rate_min + rate_max) / 2
-
-    print("Best savings rate: ", round((rate_mid * 0.0001), 4))    
-    print("Steps in bisection search:​ ", search_counter)
 
 monthly_salary = float(input("Enter starting salary: ")) / 12
 bisection (monthly_salary)
