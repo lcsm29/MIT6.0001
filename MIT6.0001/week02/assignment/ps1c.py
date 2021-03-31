@@ -1,11 +1,14 @@
-#this time, i'll focus on what this problem is specifically asking, without adding up things on my own.
+# version 0.1.210331
+# going to do some performance improvement
+# and some decluttering
+
 total_cost = 1000000
 portion_down_payment = 0.25
 
 def calculator (rate_mid):
     local_monthly_salary = monthly_salary
     local_rate_mid = rate_mid * 0.0001
-    months=0
+    months = 0
     current_savings = 0.0
     semi_annual_raise = 0.07
     r = 0.04
@@ -18,7 +21,7 @@ def calculator (rate_mid):
             local_monthly_salary += local_monthly_salary * semi_annual_raise
     return current_savings
 
-def bisection_searcher (monthly_salary):
+def bisection (monthly_salary):
     rate_min = 0
     rate_max = 10000
     rate_mid = (rate_min + rate_max) / 2
@@ -44,7 +47,7 @@ def bisection_searcher (monthly_salary):
     print("Steps in bisection search:​ ", search_counter)
 
 monthly_salary = float(input("Enter starting salary: ")) / 12
-bisection_searcher (monthly_salary)
+bisection (monthly_salary)
 
 '''Part C: Finding the right amount to save away
 In Part B, you had a chance to explore how both the percentage of your salary that you save each month
