@@ -2,14 +2,7 @@
 # Name: 
 # Collaborators: none
 # Time spent:
-'''
-Note - VS Code on Windows will try to run it like this by default.
-full_path_to_python_location\python.exe full_path_to_this_file\hangman.py
-However, this command results in this error.
-FileNotFoundError: [Errno 2] No such file or directory: 'words.txt'
-You could go to the hangman.py folder in terminal and run it like this. 
-full_path_to_python_location\python.exe hangman.py
-'''
+
 # Hangman Game
 # -----------------------------------
 # Helper code
@@ -69,6 +62,9 @@ def is_word_guessed(secret_word, letters_guessed):
       False otherwise
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
+    '''
+    if letters_guessed == '':
+        return False
     guessed=True
     for sw_counter in range(len(secret_word)):
         for lg_counter in range(len(letters_guessed)):
@@ -77,7 +73,11 @@ def is_word_guessed(secret_word, letters_guessed):
             elif lg_counter + 1 == len(letters_guessed) and secret_word[sw_counter] != letters_guessed[lg_counter]:
                 guessed=False
     return guessed
-
+    ''' # decluttered
+    for char in secret_word:
+        if char not in letters_guessed:
+            return False
+    return True
 
 def get_guessed_word(secret_word, letters_guessed):
     '''
@@ -88,10 +88,17 @@ def get_guessed_word(secret_word, letters_guessed):
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
     current_status = '_'*(len(secret_word))
+    '''
     for lg_counter in range(len(letters_guessed)):
         for sw_counter in range(len(secret_word)):
             if letters_guessed[lg_counter] == secret_word[sw_counter]:
                 current_status = current_status[:sw_counter] + secret_word[sw_counter] + current_status[sw_counter + 1:]
+    return current_status''' # decluttered
+    counter = 0
+    for char in secret_word:
+        if char in letters_guessed:
+            current_status = current_status[:counter] + secret_word[counter] + current_status[counter + 1:]
+        counter += 1
     return current_status
 
 
@@ -105,12 +112,16 @@ def get_available_letters(letters_guessed):
     if letters_guessed == '':
         return string.ascii_lowercase
     available_letters = ''
-    for alphabet in range(26):
+    '''for alphabet in range(26):
         for lg_counter in range(len(letters_guessed)):
             if string.ascii_lowercase[alphabet] == letters_guessed[lg_counter]:
                 break
             elif lg_counter+1 == len(letters_guessed) and string.ascii_lowercase[alphabet] != letters_guessed[lg_counter]:
                 available_letters += string.ascii_lowercase[alphabet]
+    return available_letters''' # decluttered
+    for char in string.ascii_lowercase:
+        if char not in letters_guessed:
+            available_letters += char
     return available_letters
 
 
@@ -143,46 +154,57 @@ def hangman(secret_word):
     global letters_guessed
     remaining_guesses = 7
     warning = 3
-    round_counter = 0
-    print(f"Willkommen! Let's play the game of hangman.\nYou have 6 guesses and 3 warnings.\nI'm thinking of a word that is {len(secret_word)} letters long.\n")
+    print(f"\nWillkommen! Let's play the game of hangman.\nYou have 6 guesses and 3 warnings.\nI'm thinking of a word that is {len(secret_word)} letters long.")
     while remaining_guesses:
-        round_counter += 1
         remaining_guesses -= 1
         if remaining_guesses <= 0:
             print("You have no remaining guess. Game Over")
             break
-        print(f"\nRound {round_counter}.\nYou have {remaining_guesses} guess(es) remaining.\nAvailable letters: {get_available_letters(letters_guessed)}")
+        print(f"-----------------------------------------\nYou have {remaining_guesses} guess(es) remaining.\nAvailable letters: {get_available_letters(letters_guessed)}")
         while 1:
             user_input = input("Enter your guess: ")
             if len(user_input) == 1 and user_input.isupper() == True and user_input.lower() in get_available_letters(letters_guessed):
                 user_input = user_input.lower()
                 if warning != 0:
                     warning -= 1
-                    print(f"You've entered uppercase alphabet. Subtracting a warning. You have {warning} warnings remaining.")
+                    print(f"You entered an uppercase alphabet. Subtracting a warning. You have {warning} warning(s) remaining.")
                 else:
                     remaining_guesses -= 1
-                    print(f"You've entered uppercase alphabet. Subtracting a guess. You have {remaining_guesses} guess(es) remaining.")
+                    print(f"You've exhausted warnings, and yet entered another uppercase alphabet. Subtracting a guess. You have {max(remaining_guesses - 1, 0)} guess(es) remaining.")
             if len(user_input) == 1 and user_input.encode().isalpha() == True and user_input in get_available_letters(letters_guessed):
                 letters_guessed += user_input
-                print(get_guessed_word(secret_word,letters_guessed))
+                if user_input in secret_word:
+                    remaining_guesses += 1
+                    print(f"Good Guess: {get_guessed_word(secret_word,letters_guessed)}")
+                else:
+                    print(f"Bad Guess: {get_guessed_word(secret_word,letters_guessed)}")
                 break
             if len(user_input) == 1 and user_input.encode().isalpha() == True and user_input not in get_available_letters(letters_guessed):
-                print("You've entered already used letter. Please try again.")
+                if warning != 0:
+                    warning -= 1
+                    print(f"You entered what you've already guessed. Subtracting a warning. You have {warning} warning(s) remaining: {get_guessed_word(secret_word,letters_guessed)}")
+                elif warning == 0:
+                    remaining_guesses -= 1
+                    print(f"You entered what you've already guessed. Subtracting a guess. You have {max(remaining_guesses - 1, 0)} guess(es) remaining: {get_guessed_word(secret_word,letters_guessed)}")
+                if remaining_guesses == 0:
+                    print("You have no remaining guess. Game Over")
+                break
             if len(user_input) == 1 and user_input.encode().isalpha() == False:
                 if warning != 0:
                     warning -= 1
-                    print(f"You've entered non English letter. Subtracting a warning. You have {warning} warnings remaining.")
-                if warning == 0:
+                    print(f"You entered non-English letter. Subtracting a warning. You have {warning} warning(s) remaining: {get_guessed_word(secret_word,letters_guessed)}")
+                elif warning == 0:
                     remaining_guesses -= 1
-                    print(f"You've entered non English letter. Subtracting a guess. You have {remaining_guesses} guess(es) remaining.")
+                    print(f"You've exhausted warnings, and yet entered another non-English letter. Subtracting a guess. You have {max(remaining_guesses - 1, 0)} guess(es) remaining: {get_guessed_word(secret_word,letters_guessed)}")
                 if remaining_guesses == 0:
-                    break
-            if len(user_input) == 0:
-                print("You've entered nothing. Please enter one letter.")
-            if len(user_input) > 1:
-                print("You've entered too many letters. Please enter one letter.")
+                    print("You have no remaining guess. Game Over")
+                break
+            if len(user_input) == 0: #intentionally giving this free pass
+                print("You entered nothing. Please enter a letter.")
+            if len(user_input) > 1:  #intentionally giving this free pass
+                print("You entered too many letters. Please enter a letter.")
         if is_word_guessed(secret_word, letters_guessed) == True:
-            print(f"You've successfully beat the game.")
+            print(f"Congratulation. You beat the game.\nYour total score is {len(set(secret_word)) * remaining_guesses}")
             break
         
 
@@ -279,6 +301,18 @@ if __name__ == "__main__":
     #hangman_with_hints(secret_word)
 
 
+'''
+Note - By default, VS Code on Windows will try to run this in the following manner.
+full_path_to_python_location\python.exe full_path_to_this_file\hangman.py
+
+However, that command results in the following error.
+FileNotFoundError: [Errno 2] No such file or directory: 'words.txt'
+
+You could go to the hangman.py folder in terminal and run it like this. 
+full_path_to_python_location\python.exe hangman.py
+
+PyCharm on Windows also produces similar error by default, but once you give WORDLIST_FILENAME full path, it works.
+'''
 
 '''
 You will implement a function called hangman that will allow the user to play hangman
