@@ -1,14 +1,22 @@
 # Problem Set 2, hangman.py
 # Name: 
-# Collaborators:
+# Collaborators: none
 # Time spent:
-
+'''
+Note - VS Code on Windows will try to run it like this by default.
+full_path_to_python_location\python.exe full_path_to_this_file\hangman.py
+However, this command results in this error.
+FileNotFoundError: [Errno 2] No such file or directory: 'words.txt'
+You could go to the hangman.py folder in terminal and run it like this. 
+full_path_to_python_location\python.exe hangman.py
+'''
 # Hangman Game
 # -----------------------------------
 # Helper code
 # You don't need to understand this helper code,
 # but you will have to know how to use the functions
 # (so be sure to read the docstrings!)
+
 import random
 import string
 
@@ -33,7 +41,6 @@ def load_words():
     return wordlist
 
 
-
 def choose_word(wordlist):
     """
     wordlist (list): list of words (strings)
@@ -43,12 +50,13 @@ def choose_word(wordlist):
     return random.choice(wordlist)
 
 # end of helper code
-
 # -----------------------------------
-
 # Load the list of words into the variable wordlist
 # so that it can be accessed from anywhere in the program
 wordlist = load_words()
+
+import string
+letters_guessed = ''
 
 
 def is_word_guessed(secret_word, letters_guessed):
@@ -61,8 +69,14 @@ def is_word_guessed(secret_word, letters_guessed):
       False otherwise
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
-
+    guessed=True
+    for sw_counter in range(len(secret_word)):
+        for lg_counter in range(len(letters_guessed)):
+            if secret_word[sw_counter] == letters_guessed[lg_counter]:
+                break
+            elif lg_counter+1 == len(letters_guessed) and secret_word[sw_counter] != letters_guessed[lg_counter]:
+                guessed=False
+    return guessed
 
 
 def get_guessed_word(secret_word, letters_guessed):
@@ -73,8 +87,12 @@ def get_guessed_word(secret_word, letters_guessed):
       which letters in secret_word have been guessed so far.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
-
+    letter_location = ''
+    for lg_counter in range(len(letters_guessed)):
+        for sw_counter in range(len(secret_word)):
+            if letters_guessed[lg_counter] == secret_word[sw_counter]:
+                letter_location += str(secret_word[sw_counter])+"_"+str(sw_counter+1)
+    print(letter_location)
 
 
 def get_available_letters(letters_guessed):
@@ -84,9 +102,15 @@ def get_available_letters(letters_guessed):
       yet been guessed.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
-    
-    
+    available_letters = ''
+    for alphabet in range(26):
+        for lg_counter in range(len(letters_guessed)):
+            if string.ascii_lowercase[alphabet] == letters_guessed[lg_counter]:
+                break
+            elif lg_counter+1 == len(letters_guessed) and string.ascii_lowercase[alphabet] != letters_guessed[lg_counter]:
+                available_letters += string.ascii_lowercase[alphabet]
+    return available_letters
+
 
 def hangman(secret_word):
     '''
@@ -114,18 +138,30 @@ def hangman(secret_word):
     Follows the other limitations detailed in the problem write-up.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
-
+    global letters_guessed
+    print(f"Let's start the game of hangman.\nYou have 6 guesses to identify the secret word, which has {len(secret_word)}-letters.\n")
+    for remaining_guesses in range(6):
+        print(f"Round {remaining_guesses + 1}. You have {6 - remaining_guesses} guess(es) remaining.")
+        while 1:
+            user_input = input("Enter your guess: ")
+            if len(user_input) == 1 and user_input.encode().isalpha() == True:
+                letters_guessed += user_input
+                print(f"List of correctly guessed word so far (if it's empty, it means you got none)\n{get_guessed_word(secret_word,letters_guessed)}")
+                break
+            elif len(user_input) != 1:
+                print("You've either entered nothing or too many letters. Please enter one letter.")
+            elif user_input.encode().isalpha()==False:
+                print("You've entered non English alphabet. Please enter English alphabet.")
+        if is_word_guessed(secret_word, letters_guessed) == True:
+            print(f"You've successfully beat the game.")
+            break
 
 
 # When you've completed your hangman function, scroll down to the bottom
 # of the file and uncomment the first two lines to test
 #(hint: you might want to pick your own
 # secret_word while you're doing your own testing)
-
-
 # -----------------------------------
-
 
 
 def match_with_gaps(my_word, other_word):
@@ -201,7 +237,8 @@ if __name__ == "__main__":
     # To test part 2, comment out the pass line above and
     # uncomment the following two lines.
     
-    secret_word = choose_word(wordlist)
+    #secret_word = choose_word(wordlist)
+    secret_word = 'test'
     hangman(secret_word)
 
 ###############
@@ -211,3 +248,25 @@ if __name__ == "__main__":
     
     #secret_word = choose_word(wordlist)
     #hangman_with_hints(secret_word)
+
+
+
+'''
+You will implement a function called hangman that will allow the user to play hangman
+against the computer. The computer picks the word, and the player tries to guess
+letters in the word.
+
+Here is the general behavior we want to implement. Don’t be intimidated! This is just
+a description; we will break this down into steps and provide further
+functional specs later on in the pset so keep reading!
+
+1. The computer must select a word at random from the list of available words
+that was provided in words.txt
+Note that words.txt contains words in all lowercase letters.  
+2. The user is given a certain number of guesses at the beginning.  
+3. The game is interactive; the user inputs their guess and the computer either:
+a. reveals the letter if it exists in the secret word
+b. penalize the user and updates the number of guesses remaining
+4. The game ends when either the user guesses the secret word, or the user runs
+out of guesses.  
+'''
