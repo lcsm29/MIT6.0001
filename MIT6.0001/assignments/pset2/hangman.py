@@ -87,12 +87,12 @@ def get_guessed_word(secret_word, letters_guessed):
       which letters in secret_word have been guessed so far.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    letter_location = ''
+    current_status = '_'*(len(secret_word))
     for lg_counter in range(len(letters_guessed)):
         for sw_counter in range(len(secret_word)):
             if letters_guessed[lg_counter] == secret_word[sw_counter]:
-                letter_location += str(secret_word[sw_counter])+"_"+str(sw_counter+1)
-    print(letter_location)
+                current_status = current_status[:sw_counter] + secret_word[sw_counter] + current_status[sw_counter + 1:]
+    return current_status
 
 
 def get_available_letters(letters_guessed):
@@ -146,7 +146,7 @@ def hangman(secret_word):
             user_input = input("Enter your guess: ")
             if len(user_input) == 1 and user_input.encode().isalpha() == True:
                 letters_guessed += user_input
-                print(f"List of correctly guessed word so far (if it's empty, it means you got none)\n{get_guessed_word(secret_word,letters_guessed)}")
+                print(get_guessed_word(secret_word,letters_guessed))
                 break
             elif len(user_input) != 1:
                 print("You've either entered nothing or too many letters. Please enter one letter.")
