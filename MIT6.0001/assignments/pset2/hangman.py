@@ -74,7 +74,7 @@ def is_word_guessed(secret_word, letters_guessed):
         for lg_counter in range(len(letters_guessed)):
             if secret_word[sw_counter] == letters_guessed[lg_counter]:
                 break
-            elif lg_counter+1 == len(letters_guessed) and secret_word[sw_counter] != letters_guessed[lg_counter]:
+            elif lg_counter + 1 == len(letters_guessed) and secret_word[sw_counter] != letters_guessed[lg_counter]:
                 guessed=False
     return guessed
 
@@ -139,23 +139,45 @@ def hangman(secret_word):
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
     global letters_guessed
-    print(f"Let's start the game of hangman.\nYou have 6 guesses to identify the secret word, which has {len(secret_word)}-letters.\n")
+    warning = 3
+    print(f"Willkommen! Let's play the game of hangman.\nYou have 6 guesses and 3 warnings to identify the secret word.\nI'm thinking of a word that is {len(secret_word)} letters long.\n")
     for remaining_guesses in range(6):
-        print(f"Round {remaining_guesses + 1}. You have {6 - remaining_guesses} guess(es) remaining.")
+        available_letters = get_available_letters(letters_guessed)
+        print(f"\nRound {remaining_guesses + 1}.\nYou have {6 - remaining_guesses} guess(es) remaining.\nAvailable letters: {available_letters}")
         while 1:
             user_input = input("Enter your guess: ")
             if len(user_input) == 1 and user_input.encode().isalpha() == True:
+                if user_input.isupper() == True:
+                    user_input = user_input.lower()
+                    if warning != 0:
+                        warning -= 1
+                        print(f"You've entered uppercase alphabet. Subtracting a warning. You now have {warning} remaining.")
+                    elif warning == 0:
+                        remaining_guesses += 1
+                        print(f"You've entered uppercase alphabet. Subtracting a guess. You now have {5 - remaining_guesses} guess(es) remaining.")
+                    if remaining_guesses == 5:
+                        break
                 letters_guessed += user_input
                 print(get_guessed_word(secret_word,letters_guessed))
                 break
             elif len(user_input) != 1:
                 print("You've either entered nothing or too many letters. Please enter one letter.")
             elif user_input.encode().isalpha()==False:
-                print("You've entered non English alphabet. Please enter English alphabet.")
+                if warning != 0:
+                    warning -= 1
+                    print(f"You've entered non English alphabet. Please enter English alphabet next time. Subtracting a warning. You now have {warning} remaining.")
+                elif warning == 0:
+                    remaining_guesses += 1
+                    print(f"You've entered non English alphabet. Please enter English alphabet next time. Subtracting a guess. You now have {5 - remaining_guesses} guess(es) remaining.")
+                if remaining_guesses == 5:
+                    break
+        if remaining_guesses == 5:
+            print("You have no remaining guess. Game Over")
+            break
         if is_word_guessed(secret_word, letters_guessed) == True:
             print(f"You've successfully beat the game.")
             break
-
+        
 
 # When you've completed your hangman function, scroll down to the bottom
 # of the file and uncomment the first two lines to test
