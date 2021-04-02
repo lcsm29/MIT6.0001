@@ -62,17 +62,6 @@ def is_word_guessed(secret_word, letters_guessed):
       False otherwise
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    '''if letters_guessed == '':
-        return False
-    guessed=True
-    for sw_counter in range(len(secret_word)):
-        for lg_counter in range(len(letters_guessed)):
-            if secret_word[sw_counter] == letters_guessed[lg_counter]:
-                break
-            elif lg_counter + 1 == len(letters_guessed) and secret_word[sw_counter] != letters_guessed[lg_counter]:
-                guessed=False
-    return guessed
-    ''' # decluttered
     for char in secret_word:
         if char not in letters_guessed:
             return False
@@ -87,11 +76,6 @@ def get_guessed_word(secret_word, letters_guessed):
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
     current_status = '_'*(len(secret_word))
-    '''for lg_counter in range(len(letters_guessed)):
-        for sw_counter in range(len(secret_word)):
-            if letters_guessed[lg_counter] == secret_word[sw_counter]:
-                current_status = current_status[:sw_counter] + secret_word[sw_counter] + current_status[sw_counter + 1:]
-    return current_status''' # decluttered
     counter = 0
     for char in secret_word:
         if char in letters_guessed:
@@ -110,13 +94,6 @@ def get_available_letters(letters_guessed):
     if letters_guessed == '':
         return string.ascii_lowercase
     available_letters = ''
-    '''for alphabet in range(26):
-        for lg_counter in range(len(letters_guessed)):
-            if string.ascii_lowercase[alphabet] == letters_guessed[lg_counter]:
-                break
-            elif lg_counter+1 == len(letters_guessed) and string.ascii_lowercase[alphabet] != letters_guessed[lg_counter]:
-                available_letters += string.ascii_lowercase[alphabet]
-    return available_letters''' # half decluttered
     for char in string.ascii_lowercase:
         if char not in letters_guessed:
             available_letters += char
@@ -149,62 +126,6 @@ def hangman(secret_word):
     Follows the other limitations detailed in the problem write-up.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    '''global letters_guessed
-    remaining_guesses = 7
-    warning = 3
-    print(f"\nWillkommen! Let's play the game of hangman.\nYou have 6 guesses and 3 warnings.\nI'm thinking of a word that is {len(secret_word)} letters long.")
-    while remaining_guesses:
-        remaining_guesses -= 1
-        if remaining_guesses <= 0:
-            print("You have no remaining guess. Game Over")
-            break
-        print(f"-----------------------------------------\nYou have {remaining_guesses} guess(es) remaining.\nAvailable letters: {get_available_letters(letters_guessed)}")
-        while 1:
-            user_input = input("Enter your guess: ")
-            if len(user_input) == 1 and user_input.isupper() == True and user_input.lower() in get_available_letters(letters_guessed):
-                user_input = user_input.lower()
-                if warning != 0:
-                    warning -= 1
-                    print(f"You entered an uppercase alphabet. Subtracting a warning. You have {warning} warning(s) remaining.")
-                else:
-                    remaining_guesses -= 1
-                    print(f"You've exhausted warnings, and yet entered another uppercase alphabet. Subtracting a guess. You have {max(remaining_guesses - 1, 0)} guess(es) remaining.")
-            if len(user_input) == 1 and user_input.encode().isalpha() == True and user_input in get_available_letters(letters_guessed):
-                letters_guessed += user_input
-                if user_input in secret_word:
-                    remaining_guesses += 1
-                    print(f"Good Guess: {get_guessed_word(secret_word,letters_guessed)}")
-                else:
-                    print(f"Bad Guess: {get_guessed_word(secret_word,letters_guessed)}")
-                break
-            if len(user_input) == 1 and user_input.encode().isalpha() == True and user_input not in get_available_letters(letters_guessed):
-                if warning != 0:
-                    warning -= 1
-                    print(f"You entered what you've already guessed. Subtracting a warning. You have {warning} warning(s) remaining: {get_guessed_word(secret_word,letters_guessed)}")
-                elif warning == 0:
-                    remaining_guesses -= 1
-                    print(f"You entered what you've already guessed. Subtracting a guess. You have {max(remaining_guesses - 1, 0)} guess(es) remaining: {get_guessed_word(secret_word,letters_guessed)}")
-                if remaining_guesses == 0:
-                    print("You have no remaining guess. Game Over")
-                break
-            if len(user_input) == 1 and user_input.encode().isalpha() == False:
-                if warning != 0:
-                    warning -= 1
-                    print(f"You entered non-English letter. Subtracting a warning. You have {warning} warning(s) remaining: {get_guessed_word(secret_word,letters_guessed)}")
-                elif warning == 0:
-                    remaining_guesses -= 1
-                    print(f"You've exhausted warnings, and yet entered another non-English letter. Subtracting a guess. You have {max(remaining_guesses - 1, 0)} guess(es) remaining: {get_guessed_word(secret_word,letters_guessed)}")
-                if remaining_guesses == 0:
-                    print("You have no remaining guess. Game Over")
-                break
-            if len(user_input) == 0: #intentionally giving this free pass
-                print("You entered nothing. Please enter a letter.")
-            if len(user_input) > 1:  #intentionally giving this free pass
-                print("You entered too many letters. Please enter a letter.")
-        if is_word_guessed(secret_word, letters_guessed) == True:
-            print(f"Congratulation. You beat the game.\nYour total score is {len(set(secret_word)) * remaining_guesses}")
-            break
-	''' # somewhat decluttered
     global letters_guessed
     guesses_remaining, warnings_remaining = 6, 3
     user_input =''
@@ -245,17 +166,24 @@ def hangman(secret_word):
         if is_word_guessed(secret_word, letters_guessed) == True:
             print(f"----------\nCongratulations, you won!\nYour total score for this game is:  {len(set(secret_word)) * guesses_remaining}")
             return
+
         # printing required statements and take user_input
         print(f"----------\nYou have {guesses_remaining} guesses left\nAvailable Letters: {get_available_letters(letters_guessed)}")
         user_input = input("Please guess a letter: ")
+
+        # if user entered nothing, give him a free pass and loop again.
+        if user_input == '':
+            continue
+
         # if it's already been guessed, give a user penalty and jump to next iteration
         if user_input.lower() in letters_guessed:
             print(f"Oops! You've already guessed that letter. {invalid_char_penalty()} {get_guessed_word(secret_word, letters_guessed)}")
             continue
+    
         # if user_input is invalid, because user entered (an) invalid character(s), either non-English alphabet, or blank, or multiple characters
         if input_validator(user_input) == False:
-            if user_input.encode().isalpha() == False or len(user_input) != 1:
-                print(f"Oops! That is not a valid letter. {invalid_char_penalty()} {get_guessed_word(secret_word, letters_guessed)}")
+            print(f"Oops! That is not a valid letter. {invalid_char_penalty()} {get_guessed_word(secret_word, letters_guessed)}")
+
         # if user_input is valid, check if it's a correct and print accordingly
         if input_validator(user_input) == True:
             if user_input.lower() not in secret_word:
@@ -346,8 +274,7 @@ if __name__ == "__main__":
     # To test part 2, comment out the pass line above and
     # uncomment the following two lines.
     
-    #secret_word = choose_word(wordlist)
-    secret_word = 'else'
+    secret_word = choose_word(wordlist)
     hangman(secret_word)
 
 ###############
