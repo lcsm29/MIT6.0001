@@ -211,8 +211,15 @@ def match_with_gaps(my_word, other_word):
         False otherwise: 
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
-
+    counter = 0
+    if len(my_word) == len(other_word):
+        for char in my_word:
+            if my_word[counter] != '_' and my_word[counter] != other_word[counter]:
+                break
+            if counter + 1 == len(my_word):
+                return True
+            counter += 1
+    return False
 
 
 def show_possible_matches(my_word):
@@ -227,7 +234,14 @@ def show_possible_matches(my_word):
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
     pass
-
+    possible_matches = ''
+    for counter in range(len(wordlist)):
+        if match_with_gaps(my_word, wordlist[counter]) == True:
+            possible_matches += wordlist[counter] + ' '
+    if possible_matches == '':
+        print("No matches found")
+    else:
+        print(f"Possible matches are: {possible_matches}")
 
 
 def hangman_with_hints(secret_word):
@@ -258,8 +272,78 @@ def hangman_with_hints(secret_word):
     Follows the other limitations detailed in the problem write-up.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    global letters_guessed
+    guesses_remaining, warnings_remaining = 6, 3
+    user_input =''
 
+    def input_validator(user_input):
+        global letters_guessed
+        if len(user_input) == 1 and user_input.encode().isalpha() == True:
+            if user_input.isupper() == True:
+                user_input = user_input.lower()
+            if user_input not in letters_guessed:
+                letters_guessed += user_input
+            return True
+        else:
+            return False
+    
+    def invalid_char_penalty():
+        nonlocal guesses_remaining, warnings_remaining
+        if warnings_remaining > 0:
+            warnings_remaining -= 1
+            penalty = "You have " + str(warnings_remaining) + " warnings left:"
+        else:
+            guesses_remaining -= 1
+            penalty = "You have no warnings left so you lose one guess:"
+        return penalty
+
+    def wrong_guess_penalty():
+        nonlocal guesses_remaining, warnings_remaining
+        if user_input.lower() in ('a', 'e', 'i', 'o', 'u'):
+            guesses_remaining -= 2
+        else:
+            guesses_remaining -= 1
+    
+    #initial launch
+    print(f"Welcome to the game Hangman!\nI am thinking of a word that is {len(secret_word)} letters long\nYou have {warnings_remaining} warnings left.")
+
+    while guesses_remaining >= 1:
+        # before entering the loop, check if it's finished
+        if is_word_guessed(secret_word, letters_guessed) == True:
+            print(f"----------\nCongratulations, you won!\nYour total score for this game is:  {len(set(secret_word)) * guesses_remaining}")
+            return
+
+        # printing required statements and take user_input
+        print(f"----------\nYou have {guesses_remaining} guesses left\nAvailable Letters: {get_available_letters(letters_guessed)}")
+        user_input = input("Please guess a letter: ")
+
+        # if * is  pressed, call show_possible_matches
+        if user_input == '*':
+            show_possible_matches(get_guessed_word(secret_word, letters_guessed))
+            continue
+
+        # if user entered nothing, give him a free pass and loop again.
+        if user_input == '':
+            continue
+
+        # if it's already been guessed, give a user penalty and jump to next iteration
+        if user_input.lower() in letters_guessed:
+            print(f"Oops! You've already guessed that letter. {invalid_char_penalty()} {get_guessed_word(secret_word, letters_guessed)}")
+            continue
+    
+        # if user_input is invalid, because user entered (an) invalid character(s), either non-English alphabet, or blank, or multiple characters
+        if input_validator(user_input) == False:
+            print(f"Oops! That is not a valid letter. {invalid_char_penalty()} {get_guessed_word(secret_word, letters_guessed)}")
+
+        # if user_input is valid, check if it's a correct and print accordingly
+        if input_validator(user_input) == True:
+            if user_input.lower() not in secret_word:
+                wrong_guess_penalty()
+                print(f"Oops! That letter is not in my word: {get_guessed_word(secret_word, letters_guessed)}")
+            elif user_input.lower() in secret_word:
+                print(f"Good guess: {get_guessed_word(secret_word, letters_guessed)}")
+    # if guesses_remaining ran out, print end of game
+    print(f"-----------\nSorry, you ran out of guesses. The word was {secret_word}.")
 
 
 # When you've completed your hangman_with_hint function, comment the two similar
@@ -273,14 +357,14 @@ if __name__ == "__main__":
 
     # To test part 2, comment out the pass line above and
     # uncomment the following two lines.
-    
-    secret_word = choose_word(wordlist)
-    hangman(secret_word)
+
+    #secret_word = choose_word(wordlist)
+    #hangman(secret_word)
 
 ###############
     
     # To test part 3 re-comment out the above lines and 
     # uncomment the following two lines. 
     
-    #secret_word = choose_word(wordlist)
-    #hangman_with_hints(secret_word)
+    secret_word = choose_word(wordlist)
+    hangman_with_hints(secret_word)
