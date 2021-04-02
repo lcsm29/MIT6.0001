@@ -62,8 +62,7 @@ def is_word_guessed(secret_word, letters_guessed):
       False otherwise
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    '''
-    if letters_guessed == '':
+    '''if letters_guessed == '':
         return False
     guessed=True
     for sw_counter in range(len(secret_word)):
@@ -88,8 +87,7 @@ def get_guessed_word(secret_word, letters_guessed):
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
     current_status = '_'*(len(secret_word))
-    '''
-    for lg_counter in range(len(letters_guessed)):
+    '''for lg_counter in range(len(letters_guessed)):
         for sw_counter in range(len(secret_word)):
             if letters_guessed[lg_counter] == secret_word[sw_counter]:
                 current_status = current_status[:sw_counter] + secret_word[sw_counter] + current_status[sw_counter + 1:]
@@ -118,7 +116,7 @@ def get_available_letters(letters_guessed):
                 break
             elif lg_counter+1 == len(letters_guessed) and string.ascii_lowercase[alphabet] != letters_guessed[lg_counter]:
                 available_letters += string.ascii_lowercase[alphabet]
-    return available_letters''' # decluttered
+    return available_letters''' # half decluttered
     for char in string.ascii_lowercase:
         if char not in letters_guessed:
             available_letters += char
@@ -151,7 +149,7 @@ def hangman(secret_word):
     Follows the other limitations detailed in the problem write-up.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    global letters_guessed
+    '''global letters_guessed
     remaining_guesses = 7
     warning = 3
     print(f"\nWillkommen! Let's play the game of hangman.\nYou have 6 guesses and 3 warnings.\nI'm thinking of a word that is {len(secret_word)} letters long.")
@@ -206,8 +204,68 @@ def hangman(secret_word):
         if is_word_guessed(secret_word, letters_guessed) == True:
             print(f"Congratulation. You beat the game.\nYour total score is {len(set(secret_word)) * remaining_guesses}")
             break
-        
+	''' # somewhat decluttered
+    global letters_guessed
+    guesses_remaining, warnings_remaining = 6, 3
+    user_input =''
 
+    def input_validator(user_input):
+        global letters_guessed
+        if len(user_input) == 1 and user_input.encode().isalpha() == True:
+            if user_input.isupper() == True:
+                user_input = user_input.lower()
+            if user_input not in letters_guessed:
+                letters_guessed += user_input
+            return True
+        else:
+            return False
+    
+    def invalid_char_penalty():
+        nonlocal guesses_remaining, warnings_remaining
+        if warnings_remaining > 0:
+            warnings_remaining -= 1
+            penalty = "You have " + str(warnings_remaining) + " warnings left:"
+        else:
+            guesses_remaining -= 1
+            penalty = "You have no warnings left so you lose one guess:"
+        return penalty
+
+    def wrong_guess_penalty():
+        nonlocal guesses_remaining, warnings_remaining
+        if user_input.lower() in ('a', 'e', 'i', 'o', 'u'):
+            guesses_remaining -= 2
+        else:
+            guesses_remaining -= 1
+    
+    #initial launch
+    print(f"Welcome to the game Hangman!\nI am thinking of a word that is {len(secret_word)} letters long\nYou have {warnings_remaining} warnings left.")
+
+    while guesses_remaining >= 1:
+        # before entering the loop, check if it's finished
+        if is_word_guessed(secret_word, letters_guessed) == True:
+            print(f"----------\nCongratulations, you won!\nYour total score for this game is:  {len(set(secret_word)) * guesses_remaining}")
+            return
+        # printing required statements and take user_input
+        print(f"----------\nYou have {guesses_remaining} guesses left\nAvailable Letters: {get_available_letters(letters_guessed)}")
+        user_input = input("Please guess a letter: ")
+        # if it's already been guessed, give a user penalty and jump to next iteration
+        if user_input.lower() in letters_guessed:
+            print(f"Oops! You've already guessed that letter. {invalid_char_penalty()} {get_guessed_word(secret_word, letters_guessed)}")
+            continue
+        # if user_input is invalid, because user entered (an) invalid character(s), either non-English alphabet, or blank, or multiple characters
+        if input_validator(user_input) == False:
+            if user_input.encode().isalpha() == False or len(user_input) != 1:
+                print(f"Oops! That is not a valid letter. {invalid_char_penalty()} {get_guessed_word(secret_word, letters_guessed)}")
+        # if user_input is valid, check if it's a correct and print accordingly
+        if input_validator(user_input) == True:
+            if user_input.lower() not in secret_word:
+                wrong_guess_penalty()
+                print(f"Oops! That letter is not in my word: {get_guessed_word(secret_word, letters_guessed)}")
+            elif user_input.lower() in secret_word:
+                print(f"Good guess: {get_guessed_word(secret_word, letters_guessed)}")
+    # if guesses_remaining ran out, print end of game
+    print(f"-----------\nSorry, you ran out of guesses. The word was {secret_word}.")
+    
 # When you've completed your hangman function, scroll down to the bottom
 # of the file and uncomment the first two lines to test
 #(hint: you might want to pick your own
@@ -289,7 +347,7 @@ if __name__ == "__main__":
     # uncomment the following two lines.
     
     #secret_word = choose_word(wordlist)
-    secret_word = 'test'
+    secret_word = 'else'
     hangman(secret_word)
 
 ###############
@@ -299,37 +357,3 @@ if __name__ == "__main__":
     
     #secret_word = choose_word(wordlist)
     #hangman_with_hints(secret_word)
-
-
-'''
-Note - By default, VS Code on Windows will try to run this in the following manner.
-full_path_to_python_location\python.exe full_path_to_this_file\hangman.py
-
-However, that command results in the following error.
-FileNotFoundError: [Errno 2] No such file or directory: 'words.txt'
-
-You could go to the hangman.py folder in terminal and run it like this. 
-full_path_to_python_location\python.exe hangman.py
-
-PyCharm on Windows also produces similar error by default, but once you give WORDLIST_FILENAME full path, it works.
-'''
-
-'''
-You will implement a function called hangman that will allow the user to play hangman
-against the computer. The computer picks the word, and the player tries to guess
-letters in the word.
-
-Here is the general behavior we want to implement. Don’t be intimidated! This is just
-a description; we will break this down into steps and provide further
-functional specs later on in the pset so keep reading!
-
-1. The computer must select a word at random from the list of available words
-that was provided in words.txt
-Note that words.txt contains words in all lowercase letters.  
-2. The user is given a certain number of guesses at the beginning.  
-3. The game is interactive; the user inputs their guess and the computer either:
-a. reveals the letter if it exists in the secret word
-b. penalize the user and updates the number of guesses remaining
-4. The game ends when either the user guesses the secret word, or the user runs
-out of guesses.  
-'''
