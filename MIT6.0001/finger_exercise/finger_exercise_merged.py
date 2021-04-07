@@ -6,7 +6,7 @@
 # John V. Guttag, 2021
 # LCCN 2020036760 | ISBN 9780262542364 (paperback)
 
-# chapter 1
+# chapter 1 getting started
 '''
 import time
 import random
@@ -53,7 +53,7 @@ while dtd:
 print(f"You've caught by police {caught} times for speeding.")
 '''
 
-# chapter 2.3 - print the largest odd among x,y,z
+# chapter 2.3 branching problems - print the largest odd among x,y,z
 '''
 largest_odd, x, y, z = 0, 1, 2, 3
 
@@ -69,7 +69,22 @@ else:
 print(f"The largest odd number is {largest_odd}")
 '''
 
-# p. 20 (on revised and expanded edition) - print the largest odd among the 10 user input integers
+# chapter 2.4.1 input - ask users to enter their birthday in the form mm/dd/yyyy and then print yyyy
+'''
+birthday = input("Enter your birthday in the form mm/dd/yyyy: ")
+print(f"Your were born in the year {birthday[6:10]}")
+'''
+
+# chapter 2.5 while loops - complete the code with a while loop
+'''
+num_x = int( input(' How many times should I print the letter X? '))
+to_print = 'X'
+while num_x:
+    print(to_print, end='')
+    num_x -= 1
+'''
+
+# chapter 2.5 while loops - print the largest odd among the 10 user input integers
 '''
 def ordinal_num(n):
     n = int(n) + 1
@@ -91,17 +106,15 @@ if __name__ == "__main__":
         print(f"The largest odd number is {largest_odd}")
 '''
 
-# chapter 2.4.1 - ask users to enter their birthday in the form mm/dd/yyyy and then print yyyy
+# chapter 2.6 for loops and range - sum of prime numbers >2 and <1000
 '''
-birthday = input("Enter your birthday in the form mm/dd/yyyy: ")
-print(f"Your were born in the year {birthday[6:10]}")
-'''
-
-# chapter 2.5
-'''
-num_x = int( input(' How many times should I print the letter X? '))
-to_print = 'X'
-while num_x:
-    print(to_print, end='')
-    num_x -= 1
+total = 2
+for odd in range(3, 1000, 2):
+    for n in range(2, odd):
+        if odd % n != 0 and n + 1 == odd:
+            print(odd)
+            total += odd
+        if odd % (n + 1) == 0:
+            break
+print(total)
 '''
