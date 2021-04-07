@@ -1,10 +1,12 @@
+# -*- coding: utf-8 -*-
+
 # Finger exercises on
 # Introduction to Computation and Programming Using Python,
-# Revised and Expanded Edition
-# John V. Guttag, 2013
-# ISBN 978-0-262-52500-8 (pbk. : alk. paper)
+# Third Edition
+# John V. Guttag, 2021
+# LCCN 2020036760 | ISBN 9780262542364 (paperback)
 
-# p. 6
+# chapter 1
 '''
 import time
 import random
@@ -51,7 +53,7 @@ while dtd:
 print(f"You've caught by police {caught} times for speeding.")
 '''
 
-# p. 16
+# chapter 2.3 - print the largest odd among x,y,z
 '''
 largest_odd, x, y, z = 0, 1, 2, 3
 
@@ -67,8 +69,7 @@ else:
 print(f"The largest odd number is {largest_odd}")
 '''
 
-
-# p. 20
+# p. 20 (on revised and expanded edition) - print the largest odd among the 10 user input integers
 '''
 def ordinal_num(n):
     n = int(n) + 1
@@ -88,4 +89,19 @@ if __name__ == "__main__":
         print("There is no odd number.")
     else:
         print(f"The largest odd number is {largest_odd}")
+'''
+
+# chapter 2.4.1 - ask users to enter their birthday in the form mm/dd/yyyy and then print yyyy
+'''
+birthday = input("Enter your birthday in the form mm/dd/yyyy: ")
+print(f"Your were born in the year {birthday[6:10]}")
+'''
+
+# chapter 2.5
+'''
+num_x = int( input(' How many times should I print the letter X? '))
+to_print = 'X'
+while num_x:
+    print(to_print, end='')
+    num_x -= 1
 '''
