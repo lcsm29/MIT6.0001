@@ -185,7 +185,7 @@ def c32():
         print(f"{ans} and {-ans} are close to square root of {x}")
 
 
-# chapter 3.2 approximate solutions and bisection search - egg breaking point, 102 stories, under 7 searches
+# chapter 3.2 approximate solutions and bisection search - egg drop, 102 stories, under 7 searches
 def c32a():
     max_safe_floor = int(input("Egg would survive the drop, up to floor # (1-102): "))
     epsilon = 0.5
@@ -203,9 +203,21 @@ def c32a():
           f"maximum survivable floor = {round(mid)} ")
 
 
+# chapter 3.3 a few words about using floats - decimal equivalent of the binary number 10011
+def c33():
+    binary = input("Enter binary number: ")
+    decimal = 0
+    for n in range(len(binary)):
+        decimal += int(binary[-n-1]) * 2 ** n
+    print(f"binary number {binary} is {decimal} in decimal")
+
+
+# chapter 3.4 Newton-Raphson -
+
+# chapter caller
 chapter_call = input("Enter chapter name "
-                    "(e.g. c23 means chapter 2.3, "
-                    "c31a means the second exercise on chapter 3.1): ")
+                     "(e.g. c23 means chapter 2.3, "
+                     "c31a means the second exercise on chapter 3.1): ")
 if chapter_call in locals().keys() and callable(locals()[chapter_call]):
     locals()[chapter_call]()
 else:
