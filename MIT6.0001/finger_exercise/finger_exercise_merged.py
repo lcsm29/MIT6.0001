@@ -212,7 +212,45 @@ def c33():
     print(f"binary number {binary} is {decimal} in decimal")
 
 
-# chapter 3.4 Newton-Raphson -
+# chapter 3.4 Newton-Raphson - add some code to keep track of # of iterations and compare the efficiency to bisection
+def c34():
+    from time import perf_counter_ns
+    # Newton-Raphson
+    k = 123456789
+    epsilon = 0.01
+    guess = k / 2
+    newton_raphson_counter = 0
+    newton_start = perf_counter_ns()
+    while abs(guess ** 2 - k) >= epsilon:
+        guess = guess - (((guess ** 2) - k) / (2 * guess))
+        newton_raphson_counter += 1
+    newton_elapsed = perf_counter_ns() - newton_start
+
+    # Bisection
+    num_guesses, low = 0, 0
+    high = max(1, k)
+    ans = (high + low) / 2
+    bisection_start = perf_counter_ns()
+    while abs(ans ** 2 - k) >= epsilon:
+        num_guesses += 1
+        if ans ** 2 < k:
+            low = ans
+        else:
+            high = ans
+        ans = (high + low) / 2
+    bisection_elapsed = perf_counter_ns() - bisection_start
+
+    # Results
+    print(f"\nSquare root of {k} is about;\n"
+          f"Newton-Raphson: {guess}.\n"
+          f"bisection search: {ans}.\n")
+    print(f"Number of iterations;\n"
+          f"Newton-Raphson: {newton_raphson_counter}\n"
+          f"bisection search: {num_guesses}\n")
+    print(f"Time elapsed in nanoseconds;\n"
+          f"Newton-Raphson: {newton_elapsed}\n"
+          f"bisection search: {bisection_elapsed}")
+
 
 # chapter caller
 chapter_call = input("Enter chapter name "
