@@ -8,7 +8,7 @@
 
 
 # chapter 1 getting started
-def c1():
+'''def c1():
     import time
     import random
 
@@ -41,12 +41,12 @@ def c1():
         dtd -= 1
         time.sleep(seconds)
         if cop_location[dtd] == 0:
-            print('.', end='')
+            print('.', end="")
         else:
             if prob <= random.uniform(0, 1):
-                print('E', end='')
+                print('E', end="")
             else:
-                print('C', end='')
+                print('C', end="")
                 caught += 1
     print(f"\nYou've caught by police {caught} times for speeding.")
 
@@ -65,7 +65,7 @@ def c23():
         if z % 2 == 1 and z > largest_odd:
             largest_odd = z
     print(f"The largest odd number is {largest_odd}")
-
+'''
 
 # chapter 2.4.1 input - ask users to enter their birthday in the form mm/dd/yyyy and then print yyyy
 def c241():
@@ -94,7 +94,7 @@ def c25a():
     if __name__ == "__main__":
         user_input = [0] * 10
         largest_odd = 0
-        for n in range(len(user_input)):  # for n in user_input: also iterates from 0 to 9, but n is stuck at 0
+        for n in range(len(user_input)):  # for n in user_input: also iterates 9 times, but n is stuck at 0
             user_input[n] = int(input(f"Enter your {ordinal_num(n)} number: "))
             if user_input[n] > largest_odd and user_input[n] % 2 == 1:
                 largest_odd = user_input[n]
