@@ -274,7 +274,7 @@ def c411():
 
     print(f"{find_root(25, 2, 0.001) + find_root(-8, 3, 0.001) + find_root(16, 4, 0.001)}")
 
-# chapter 4.1.1 function definitions -
+# chapter 4.1.1 function definitions - test
 
 # chapter 4.1.1 function definitions - write a function to test is_in
 
