@@ -8,7 +8,7 @@
 
 
 # chapter 1 getting started
-'''def c1():
+def c1():
     import time
     import random
 
@@ -41,12 +41,12 @@
         dtd -= 1
         time.sleep(seconds)
         if cop_location[dtd] == 0:
-            print('.', end="")
+            print('.', end='')
         else:
             if prob <= random.uniform(0, 1):
-                print('E', end="")
+                print('E', end='')
             else:
-                print('C', end="")
+                print('C', end='')
                 caught += 1
     print(f"\nYou've caught by police {caught} times for speeding.")
 
@@ -65,7 +65,7 @@ def c23():
         if z % 2 == 1 and z > largest_odd:
             largest_odd = z
     print(f"The largest odd number is {largest_odd}")
-'''
+
 
 # chapter 2.4.1 input - ask users to enter their birthday in the form mm/dd/yyyy and then print yyyy
 def c241():
@@ -250,6 +250,36 @@ def c34():
     print(f"Time elapsed in nanoseconds;\n"
           f"Newton-Raphson: {newton_elapsed}\n"
           f"bisection search: {bisection_elapsed}")
+
+
+# chapter 4.1.1 function definitions - use the find_root function in Figure 4-3
+# to print the sum of approximations to the sqrt of 25, the cube root of -8.
+# and the fourth root of 16. Use 0.001 as epsilon.
+def c411():
+    def find_root(x, power, epsilon):
+        # Find interval containing answer
+        if x < 0 and power%2 == 0:
+            return None #Negative number has no even-powered roots
+        low = min(-1, x)
+        high = max(1, x)
+        #Use bisection search
+        ans = (high + low) / 2
+        while abs(ans**power - x) >= epsilon:
+            if ans**power < x:
+                low = ans
+            else:
+                high = ans
+            ans = (high + low) / 2
+        return answer
+
+    print(f"{find_root(25, 2, 0.001) + \
+    find_root(-8, 3, 0.001) + \
+    find_root(16, 4, 0.001)}")
+
+# chapter 4.1.1 function definitions - write a function to test is_in
+
+# chapter 4.1.1 function definitions - write a function to test is_in
+
 
 
 # chapter caller
