@@ -171,4 +171,3 @@ elif sqrt**2 == posi_conversion and neg_flag==True:
     print("Square root of " + string_user_input + " is " + string_sqrt + "i")
 else:
     print(user_input, "is not a perfect square")
-    

@@ -110,11 +110,10 @@ def c26():
     for odd in range(3, 1000, 2):
         for n in range(2, odd):
             if odd % n != 0 and n + 1 == odd:
-                print(odd)
                 total += odd
             if odd % (n + 1) == 0:
                 break
-    print(total)
+    print(f"Sum of the prime numbers >2 and <1000 is {total}")
 
 
 # chapter 3.1 exhaustive enumeration - change the code so that it returns the largest rather than the smallest divisor
@@ -149,19 +148,64 @@ def c31a():
 
 
 # chapter 3.1 exhaustive enumeration - print the sum of the prime numbers >2 and <1000.
+# the following is okay for 1,000 or 10,000 but getting slow for 100,000
 def c31b():
     total = 2
     for odd in range(3, 1000, 2):
         for n in range(2, odd):
             if odd % n != 0 and n + 1 == odd:
-                print(odd)
                 total += odd
             if odd % (n + 1) == 0:
                 break
-    print(total)
+    print(f"Sum of the prime numbers >2 and <1000 is {total}")
 
 
-chapter_call = input("Enter the chapter name (e.g. c23 means chapter 2.3, c31a means second exercise on chapter 3.1): ")
+# chapter 3.2 approximate solutions and bisection search - modify Figure 3-5 to find both negative and positive sqrt
+def c32():
+    x = int(input("Enter an integer greater than 2: "))
+    neg = False
+    if x < 0:
+        neg, x = True, -x
+    epsilon = 0.01
+    num_guesses, low = 0, 0
+    high = max(1, x)
+    ans = (high + low) / 2
+    while abs(ans ** 2 - x) >= epsilon:
+        print(f"low = {low}, high = {high}, ans = {ans}")
+        num_guesses += 1
+        if ans ** 2 < x:
+            low = ans
+        else:
+            high = ans
+        ans = (high + low) / 2
+    print(f"number of guesses = {num_guesses}")
+    if not neg:
+        print(f"{ans} is close to square root of {x}")
+    else:
+        print(f"{ans} and {-ans} are close to square root of {x}")
+
+
+# chapter 3.2 approximate solutions and bisection search - egg breaking point, 102 stories, under 7 searches
+def c32a():
+    max_safe_floor = int(input("Egg would survive the drop, up to floor # (1-102): "))
+    epsilon = 0.5
+    num_guesses, low, high = 0, 1, 102
+    mid = (high + low) / 2
+    while abs(mid - max_safe_floor) >= epsilon:
+        print(f"low = {low}, high = {high}, mid = {mid}")
+        num_guesses += 1
+        if mid < max_safe_floor:
+            low = mid
+        else:
+            high = mid
+        mid = (high + low) / 2
+    print(f"number of guesses = {num_guesses}\n"
+          f"maximum survivable floor = {round(mid)} ")
+
+
+chapter_call = input("Enter chapter name "
+                    "(e.g. c23 means chapter 2.3, "
+                    "c31a means the second exercise on chapter 3.1): ")
 if chapter_call in locals().keys() and callable(locals()[chapter_call]):
     locals()[chapter_call]()
 else:
