@@ -6,7 +6,6 @@
 # John V. Guttag, 2021
 # LCCN 2020036760 | ISBN 9780262542364 (paperback)
 
-
 # chapter 1 getting started
 def c1():
     import time
@@ -252,9 +251,7 @@ def c34():
           f"bisection search: {bisection_elapsed}")
 
 
-# chapter 4.1.1 function definitions - use the find_root function in Figure 4-3
-# to print the sum of approximations to the sqrt of 25, the cube root of -8.
-# and the fourth root of 16. Use 0.001 as epsilon.
+# chapter 4.1.1 function definitions - modify the Fig. 4-3 to print sum of sqrt(25), 3sqrt(-8), 4sqrt(16). 0.001 epsilon
 def c411():
     def find_root(x, power, epsilon):
         # Find interval containing answer
@@ -262,7 +259,7 @@ def c411():
             return None #Negative number has no even-powered roots
         low = min(-1, x)
         high = max(1, x)
-        #Use bisection search
+        # Use bisection search
         ans = (high + low) / 2
         while abs(ans**power - x) >= epsilon:
             if ans**power < x:
@@ -271,20 +268,58 @@ def c411():
                 high = ans
             ans = (high + low) / 2
         return ans
-
     print(f"{find_root(25, 2, 0.001) + find_root(-8, 3, 0.001) + find_root(16, 4, 0.001)}")
 
-# chapter 4.1.1 function definitions - test 2
+
+# chapter 4.1.1 function definitions - write a function as_in accept two string args and return if either string occurs anywhere in the other
+def c411a(str1, str2):
+    def as_in():
+        if str1 in str2 or str2 in str1:
+            return True
+        else:
+            return False
+    return as_in()
+
 
 # chapter 4.1.1 function definitions - write a function to test is_in
+# TODO not finished
+def c411b():
+    def as_in_tester(first_str, second_str):
+        result_as_in = c411a(first_str, second_str)
+        result_tester = False
+        for f in range(len(first_str)):
+            for s in range(len(second_str)):
+                if first_str[f] == second_str[s]:
+                    for p in range(len(first_str)):
+                        if first_str[f+p] == second_str[f+p]:
+                            matched = 1
+                        else:
+                            matched = 0
+                    if matched == 1:
+                        result_tester = True
+        print(f"Result of as_in function: {c411a(first_str, second_str)}"
+              f"Result of tester: {result_tester}")
+        if result_tester == result_as_in:
+            print("The result of as_in function is correct.")
+        else:
+            print("The result of as_in function is incorrect.")
+
+    first_str = input("Enter the first string you want to test: ")
+    second_str = input("Enter the second string you want to test: ")
+    as_in_tester(first_str, second_str)
 
 
 
 # chapter caller
-chapter_call = input("Enter chapter name "
-                     "(e.g. c23 means chapter 2.3, "
-                     "c31a means the second exercise on chapter 3.1): ")
+chapter_call = input("Chapter selector\n-------------------------------------------\n"
+                     "first exercise on Chapter 2.3 = c23\n"
+                     "third exercise on Chapter 4.1.1 = c411b\n"
+                     "blank = last chapter\n-------------------------------------------\n"
+                     "Enter the chapter name: ")
 if chapter_call in locals().keys() and callable(locals()[chapter_call]):
     locals()[chapter_call]()
+elif chapter_call == '':
+    last_chapter = dir()[-2]
+    locals()[last_chapter]()
 else:
     print("No such function exists")
