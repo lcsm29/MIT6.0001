@@ -283,7 +283,7 @@ def c411a(str1, str2):
 
 # chapter 4.1.1 function definitions - write a function to test is_in
 # TODO not finished
-# macOS tests
+# macOS signed commit tests
 def c411b():
     def as_in_tester(first_str, second_str):
         result_as_in = c411a(first_str, second_str)
