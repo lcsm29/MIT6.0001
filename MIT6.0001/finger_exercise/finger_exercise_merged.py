@@ -255,8 +255,8 @@ def c34():
 def c411():
     def find_root(x, power, epsilon):
         # Find interval containing answer
-        if x < 0 and power%2 == 0:
-            return None #Negative number has no even-powered roots
+        if x < 0 and power % 2 == 0:
+            return None  # Negative number has no even-powered roots
         low = min(-1, x)
         high = max(1, x)
         # Use bisection search
@@ -271,7 +271,8 @@ def c411():
     print(f"{find_root(25, 2, 0.001) + find_root(-8, 3, 0.001) + find_root(16, 4, 0.001)}")
 
 
-# chapter 4.1.1 function definitions - write a function as_in accept two string args and return if either string occurs anywhere in the other
+# chapter 4.1.1 function definitions - write a function as_in.
+# take two string args and return True if either string occurs anywhere in the other.
 def c411a(str1, str2):
     def as_in():
         if str1 in str2 or str2 in str1:
@@ -282,41 +283,61 @@ def c411a(str1, str2):
 
 
 # chapter 4.1.1 function definitions - write a function to test is_in
-# TODO not finished
-# macOS signed commit tests
 def c411b():
     def as_in_tester(first_str, second_str):
         result_as_in = c411a(first_str, second_str)
-        result_tester = False
-        for f in range(len(first_str)):
-            for s in range(len(second_str)):
-                if first_str[f] == second_str[s]:
-                    for p in range(len(first_str)):
-                        if first_str[f+p] == second_str[f+p]:
-                            matched = 1
-                        else:
-                            matched = 0
-                    if matched == 1:
-                        result_tester = True
-        print(f"Result of as_in function: {c411a(first_str, second_str)}"
-              f"Result of tester: {result_tester}")
-        if result_tester == result_as_in:
-            print("The result of as_in function is correct.")
+        matched = False
+        longer_str, shorter_str = '', ''
+        if len(first_str) == len(second_str):
+            # if both string have same length, compare two strings right up
+            for n in range(len(first_str)):
+                print('head on comparo')
+                if first_str[n] is not second_str[n]:
+                    break
+                elif first_str[n] == second_str[n] and n + 1 == len(first_str):
+                    matched = True
         else:
-            print("The result of as_in function is incorrect.")
-
+            # if not, determine the longer one
+            if len(first_str) > len(second_str):
+                longer_str = first_str
+                shorter_str = second_str
+            else:
+                longer_str = second_str
+                shorter_str = first_str
+            # and mark the entry_point
+            entry_point = []
+            for n in range(len(longer_str)):
+                if shorter_str[0] == longer_str[n] and len(shorter_str) + n <= len(longer_str):
+                    entry_point.append(1)
+                else:
+                    entry_point.append(0)
+            # and compare shorter string to longer string, starting from each entry points
+            for n in range(len(longer_str)):
+                if entry_point[n] == 0:
+                    continue
+                else:
+                    for x in range(len(shorter_str)):
+                        if shorter_str[x] is not longer_str[n + x]:
+                            break
+                        elif shorter_str[x] == longer_str[n + x] and x + 1 == len(shorter_str):
+                            matched = True
+        # result printer
+        if matched == result_as_in:
+            print(f"The result of as_in function is {result_as_in}. It is correct.")
+        else:
+            print(f"The result of as_in function is {result_as_in}. It is incorrect.")
     first_str = input("Enter the first string you want to test: ")
     second_str = input("Enter the second string you want to test: ")
     as_in_tester(first_str, second_str)
 
 
-
 # chapter caller
-chapter_call = input("Chapter selector\n-------------------------------------------\n"
-                     "first exercise on Chapter 2.3 = c23\n"
-                     "third exercise on Chapter 4.1.1 = c411b\n"
-                     "blank = last chapter\n-------------------------------------------\n"
-                     "Enter the chapter name: ")
+chapter_call = input("Chapter Selector\n-------------------------------------------\n"
+                     "Command Examples"
+                     "First exercise on Chapter 2.3 = c23\n"
+                     "Third exercise on Chapter 4.1.1 = c411b\n"
+                     "The last chapter on this code = <enter>\n-------------------------------------------\n"
+                     "Enter the chapter name [default: the last chapter]: ")
 if chapter_call in locals().keys() and callable(locals()[chapter_call]):
     locals()[chapter_call]()
 elif chapter_call == '':
