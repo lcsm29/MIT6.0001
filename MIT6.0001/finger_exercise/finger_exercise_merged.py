@@ -331,6 +331,23 @@ def c411b():
     as_in_tester(first_str, second_str)
 
 
+
+# chapter 4.1.2 keyword arguments and default values - 
+def c412():
+    def mult(first, second, no_second):
+        if no_second:
+            return int(first)
+        else:
+            return int(first) * int(second)
+    #first, second = input("Enter either one integer, or two integers seperated by space: ").split()
+    no_second = False
+    first = input("Enter the first integer (it can't be empty): ")
+    second = input("Enter the second integer (it can be empty): ")
+    if second == '':
+        no_second = True
+    print(mult(first, second, no_second))
+
+
 # chapter caller
 chapter_call = input("Chapter Selector\n-------------------------------------------\n"
                      "Command Examples"
