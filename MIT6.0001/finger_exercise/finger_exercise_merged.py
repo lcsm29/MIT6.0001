@@ -331,21 +331,42 @@ def c411b():
     as_in_tester(first_str, second_str)
 
 
-
-# chapter 4.1.2 keyword arguments and default values - 
+# chapter 4.1.2 keyword arguments and default values - def mult, either accepts 1 int argument and print that argument
+#                                                    or accepts 2 int arguments and prints the product of the two args
 def c412():
-    def mult(first, second, no_second):
-        if no_second:
-            return int(first)
-        else:
-            return int(first) * int(second)
-    #first, second = input("Enter either one integer, or two integers seperated by space: ").split()
-    no_second = False
-    first = input("Enter the first integer (it can't be empty): ")
-    second = input("Enter the second integer (it can be empty): ")
-    if second == '':
-        no_second = True
-    print(mult(first, second, no_second))
+    def mult(*numbers):
+        if len(numbers) == 1:
+            print(numbers[0])
+        if len(numbers) == 2:
+            print(numbers[0] * numbers[1])
+
+    def is_int(number):
+        try:
+            int(number)
+            return int(number)
+        except ValueError:
+            return
+
+    # this commented line doesn't work, if user gives only one input
+    # first, second = input("Enter either one integer, or two integers seperated by space: ").split()
+    print("Give me one or two integers.")
+    first = input("Enter the first integer: ")
+    second = input("Enter the second integer: ")
+    first, second = is_int(first), is_int(second)
+    if isinstance(first, int) and isinstance(second, int):
+        mult(first, second)
+    elif isinstance(first, int):
+        mult(first)
+    elif isinstance(second, int):
+        mult(second)
+
+
+# chapter 4.2 specification - write a function which uses bisection and satisfies the specification below.
+""" Assumes x and epsilon int or float, base an int, 
+        x > 1, epsilon > 0 & power > = 1
+    Returns float y such that base** y is within epsilon of x."""
+def log(x, base, epsilon):
+
 
 
 # chapter caller
