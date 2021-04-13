@@ -362,11 +362,66 @@ def c412():
 
 
 # chapter 4.2 specification - write a function which uses bisection and satisfies the specification below.
-""" Assumes x and epsilon int or float, base an int, 
-        x > 1, epsilon > 0 & power > = 1
-    Returns float y such that base** y is within epsilon of x."""
-def log(x, base, epsilon):
+# Assumes x and epsilon int or float, base an int,
+#         x > 1, epsilon > 0 & power > = 1
+# Returns float y such that base**y is within epsilon of x.
+def c42():
+    def log(x, base, epsilon):
+        low = 0
+        high = max(1, x)
+        ans = (high + low) / 2
+        while abs(base ** ans - x) >= epsilon:
+            if base ** ans < x:
+                low = ans
+            else:
+                high = ans
+            ans = (high + low) / 2
+        return ans
 
+    def is_int_or_float(user_input):
+        try:
+            int(user_input)
+            return int(user_input)
+        except ValueError:
+            try:
+                float(user_input)
+                return float(user_input)
+            except ValueError:
+                return
+
+    def type_converter(number):
+        if type(number) == int:
+            return int(number)
+        else:
+            return float(number)
+
+    x = input("Enter x: ")
+    while is_int_or_float(x) is None or is_int_or_float(x) <= 1:
+        if is_int_or_float(x) is None:
+            print("x should be either int or float.")
+        elif is_int_or_float(x) <= 1:
+            print("x should be greater than 1.")
+        x = input("Enter x (>1, and either int or float): ")
+
+    epsilon = input("Enter epsilon: ")
+    while is_int_or_float(epsilon) is None or is_int_or_float(x) <= 0:
+        if is_int_or_float(epsilon) is None:
+            print("epsilon should be either int or float.")
+        elif is_int_or_float(epsilon) <= 0:
+            print("epsilon should be greater than 1.")
+        epsilon = input("Enter epsilon (>0, and either int or float): ")
+
+    base = input("Enter base: ")
+    while is_int_or_float(base) is None or type(is_int_or_float(base)) == float or is_int_or_float(base) <= 1:
+        if is_int_or_float(epsilon) is None or type(is_int_or_float(base)) is float:
+            print("base should be an integer.")
+        elif is_int_or_float(base) <= 1:
+            print("base should be positive integer not equal to 1")
+        base = input("Enter base (positive int, not 1): ")
+
+    x, epsilon, base = type_converter(x), type_converter(epsilon), type_converter(base)
+    y = log(x, base, epsilon)
+    print(f"y within epsilon {epsilon} is {y}.")
 
 
 # chapter caller
