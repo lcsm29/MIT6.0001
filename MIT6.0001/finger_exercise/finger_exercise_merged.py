@@ -434,6 +434,15 @@ def c52():
     print(f"the mean of the following tuple of numbers is {expression}\n{tuple}")
 
 
+# chapter 5.3 lists and mutability - what does the following code print?
+def c53():
+    L = [1, 2, 3]
+    L.append(L)
+    print(L)
+    print(L[-1])
+    print(L is L[-1])
+
+
 # chapter caller
 chapter_call = input("Chapter Selector\n-------------------------------------------\n"
                      "Command Examples"
