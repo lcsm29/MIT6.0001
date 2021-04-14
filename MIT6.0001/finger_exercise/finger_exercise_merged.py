@@ -424,6 +424,16 @@ def c42():
     print(f"y within epsilon {epsilon} is {y}.")
 
 
+# chapter 5.2 ranges and iterables - expression that evaluates to the mean of a tuple of numbers, using function sum
+def c52():
+    import random
+    tuple = ()
+    for num in range(10):
+        tuple += (random.uniform(0, 1_000_000), )
+    expression = sum(list(tuple))/len(tuple)
+    print(f"the mean of the following tuple of numbers is {expression}\n{tuple}")
+
+
 # chapter caller
 chapter_call = input("Chapter Selector\n-------------------------------------------\n"
                      "Command Examples"
