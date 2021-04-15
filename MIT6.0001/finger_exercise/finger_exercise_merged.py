@@ -450,8 +450,16 @@ def c532():
           f"non-primes {nonprimes}\n")
 
 
+# chapter 5.4 higher-order operations on lists - implement a function satisfying the specs
+def c54():
+    def f(L1, L2):
+        """L1, L2 lists of same length of numbers
+        returns the sum of raising each element in L1
+        to the power of the element at the same index in L2
+        For example, f([1,2], [2,3]) returns 9"""
+
+
 # chapter caller
-'''
 chapter_call = input("Chapter Selector\n-------------------------------------------\n"
                      "Command Examples"
                      "First exercise on Chapter 2.3 = c23\n"
@@ -465,4 +473,3 @@ elif chapter_call == '':
     locals()[last_chapter]()
 else:
     print("No such function exists")
-'''
