@@ -443,7 +443,15 @@ def c53():
     print(L is L[-1])
 
 
+# chapter 5.3.2 list comprehension - write a list comprehension that generates all non-primes between 2 and 100
+def c532():
+    nonprimes = [x for x in range(2, 101) if not all(x % y != 0 for y in range(2, x))]
+    print(f"method 1\n"
+          f"non-primes {nonprimes}\n")
+
+
 # chapter caller
+'''
 chapter_call = input("Chapter Selector\n-------------------------------------------\n"
                      "Command Examples"
                      "First exercise on Chapter 2.3 = c23\n"
@@ -457,3 +465,4 @@ elif chapter_call == '':
     locals()[last_chapter]()
 else:
     print("No such function exists")
+'''
