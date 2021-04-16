@@ -1,5 +1,5 @@
 # Problem Set 2, hangman.py
-# Name: 
+# Name:
 # Collaborators: none
 # Time spent:
 
@@ -19,7 +19,7 @@ WORDLIST_FILENAME = "words.txt"
 def load_words():
     """
     Returns a list of valid words. Words are strings of lowercase letters.
-    
+
     Depending on the size of the word list, this function may
     take a while to finish.
     """
@@ -37,7 +37,7 @@ def load_words():
 def choose_word(wordlist):
     """
     wordlist (list): list of words (strings)
-    
+
     Returns a word from wordlist at random
     """
     return random.choice(wordlist)
@@ -103,26 +103,26 @@ def get_available_letters(letters_guessed):
 def hangman(secret_word):
     '''
     secret_word: string, the secret word to guess.
-    
+
     Starts up an interactive game of Hangman.
-    
-    * At the start of the game, let the user know how many 
+
+    * At the start of the game, let the user know how many
       letters the secret_word contains and how many guesses s/he starts with.
-      
+
     * The user should start with 6 guesses
 
     * Before each round, you should display to the user how many guesses
       s/he has left and the letters that the user has not yet guessed.
-    
+
     * Ask the user to supply one guess per round. Remember to make
       sure that the user puts in a letter!
-    
-    * The user should receive feedback immediately after each guess 
+
+    * The user should receive feedback immediately after each guess
       about whether their guess appears in the computer's word.
 
-    * After each guess, you should display to the user the 
+    * After each guess, you should display to the user the
       partially guessed word so far.
-    
+
     Follows the other limitations detailed in the problem write-up.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
@@ -140,7 +140,7 @@ def hangman(secret_word):
             return True
         else:
             return False
-    
+
     def invalid_char_penalty():
         nonlocal guesses_remaining, warnings_remaining
         if warnings_remaining > 0:
@@ -157,7 +157,7 @@ def hangman(secret_word):
             guesses_remaining -= 2
         else:
             guesses_remaining -= 1
-    
+
     #initial launch
     print(f"Welcome to the game Hangman!\nI am thinking of a word that is {len(secret_word)} letters long\nYou have {warnings_remaining} warnings left.")
 
@@ -179,7 +179,7 @@ def hangman(secret_word):
         if user_input.lower() in letters_guessed:
             print(f"Oops! You've already guessed that letter. {invalid_char_penalty()} {get_guessed_word(secret_word, letters_guessed)}")
             continue
-    
+
         # if user_input is invalid, because user entered (an) invalid character(s), either non-English alphabet, or blank, or multiple characters
         if input_validator(user_input) == False:
             print(f"Oops! That is not a valid letter. {invalid_char_penalty()} {get_guessed_word(secret_word, letters_guessed)}")
@@ -193,7 +193,7 @@ def hangman(secret_word):
                 print(f"Good guess: {get_guessed_word(secret_word, letters_guessed)}")
     # if guesses_remaining ran out, print end of game
     print(f"-----------\nSorry, you ran out of guesses. The word was {secret_word}.")
-    
+
 # When you've completed your hangman function, scroll down to the bottom
 # of the file and uncomment the first two lines to test
 #(hint: you might want to pick your own
@@ -205,10 +205,10 @@ def match_with_gaps(my_word, other_word):
     '''
     my_word: string with _ characters, current guess of secret word
     other_word: string, regular English word
-    returns: boolean, True if all the actual letters of my_word match the 
+    returns: boolean, True if all the actual letters of my_word match the
         corresponding letters of other_word, or the letter is the special symbol
         _ , and my_word and other_word are of the same length;
-        False otherwise: 
+        False otherwise:
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
     counter = 0
@@ -247,28 +247,28 @@ def show_possible_matches(my_word):
 def hangman_with_hints(secret_word):
     '''
     secret_word: string, the secret word to guess.
-    
+
     Starts up an interactive game of Hangman.
-    
-    * At the start of the game, let the user know how many 
+
+    * At the start of the game, let the user know how many
       letters the secret_word contains and how many guesses s/he starts with.
-      
+
     * The user should start with 6 guesses
-    
+
     * Before each round, you should display to the user how many guesses
       s/he has left and the letters that the user has not yet guessed.
-    
+
     * Ask the user to supply one guess per round. Make sure to check that the user guesses a letter
-      
-    * The user should receive feedback immediately after each guess 
+
+    * The user should receive feedback immediately after each guess
       about whether their guess appears in the computer's word.
 
-    * After each guess, you should display to the user the 
+    * After each guess, you should display to the user the
       partially guessed word so far.
-      
+
     * If the guess is the symbol *, print out all words in wordlist that
-      matches the current guessed word. 
-    
+      matches the current guessed word.
+
     Follows the other limitations detailed in the problem write-up.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
@@ -286,7 +286,7 @@ def hangman_with_hints(secret_word):
             return True
         else:
             return False
-    
+
     def invalid_char_penalty():
         nonlocal guesses_remaining, warnings_remaining
         if warnings_remaining > 0:
@@ -303,7 +303,7 @@ def hangman_with_hints(secret_word):
             guesses_remaining -= 2
         else:
             guesses_remaining -= 1
-    
+
     #initial launch
     print(f"Welcome to the game Hangman!\nI am thinking of a word that is {len(secret_word)} letters long\nYou have {warnings_remaining} warnings left.")
 
@@ -330,7 +330,7 @@ def hangman_with_hints(secret_word):
         if user_input.lower() in letters_guessed:
             print(f"Oops! You've already guessed that letter. {invalid_char_penalty()} {get_guessed_word(secret_word, letters_guessed)}")
             continue
-    
+
         # if user_input is invalid, because user entered (an) invalid character(s), either non-English alphabet, or blank, or multiple characters
         if input_validator(user_input) == False:
             print(f"Oops! That is not a valid letter. {invalid_char_penalty()} {get_guessed_word(secret_word, letters_guessed)}")
@@ -362,9 +362,9 @@ if __name__ == "__main__":
     #hangman(secret_word)
 
 ###############
-    
-    # To test part 3 re-comment out the above lines and 
-    # uncomment the following two lines. 
-    
+
+    # To test part 3 re-comment out the above lines and
+    # uncomment the following two lines.
+
     secret_word = choose_word(wordlist)
     hangman_with_hints(secret_word)
