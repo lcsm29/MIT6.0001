@@ -453,10 +453,19 @@ def c532():
 # chapter 5.4 higher-order operations on lists - implement a function satisfying the specs
 def c54():
     def f(L1, L2):
-        """L1, L2 lists of same length of numbers
+        """
+        L1, L2 lists of same length of numbers
         returns the sum of raising each element in L1
         to the power of the element at the same index in L2
-        For example, f([1,2], [2,3]) returns 9"""
+        For example, f([1,2], [2,3]) returns 9
+        """
+        sum = 0
+        for num in range(len(L1)):
+            sum += L1[num] ** L2[num]
+        return sum
+    L1 = [1, 2, 3]
+    L2 = [9, 8, 2]
+    print(f(L1, L2))
 
 
 # chapter caller
