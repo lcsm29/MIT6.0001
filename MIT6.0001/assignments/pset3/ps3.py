@@ -120,6 +120,7 @@ def display_hand(hand):
         for i in range(hand[letter]):
             print(letter, end=' ')
 
+
 #
 # Make sure you understand how this function works and what it does!
 # You will need to modify this for Problem #4.
@@ -171,8 +172,25 @@ def update_hand(hand, word):
     hand: dictionary (string -> int)    
     returns: dictionary (string -> int)
     """
+    # converting word to dictionary format
+    needed = {}
+    for letter in word:
+        if letter in needed:
+            needed[letter] += 1
+        else:
+            needed[letter] = 1
+    
+    new_hand = hand.copy()
+    # compare value and return
+    for letter, value in needed.items():
+        if hand[letter] < needed[letter]:
+            return None
+        else:
+            new_hand[letter] -= needed[letter]
+    
+    return new_hand
 
-    pass  # TO DO... Remove this line when you implement this function
+    
 
 #
 # Problem #3: Test word validity
