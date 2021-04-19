@@ -58,7 +58,7 @@ def get_frequency_dict(sequence):
     for x in sequence:
         freq[x] = freq.get(x,0) + 1
     return freq
-	
+
 
 # (end of helper code)
 # -----------------------------------
@@ -95,11 +95,11 @@ def get_word_score(word, n):
     point = []
     for letter in word:
         point.append(SCRABBLE_LETTER_VALUES.get(letter))
-    first = sum(point)
-    second = 7 * len(word) - 3 * (n - len(word))
-    if second < 1:
-        second = 1
-    return first * second
+    first_component = sum(point)
+    second_component = 7 * len(word) - 3 * (n - len(word))
+    if second_component < 1:
+        second_component = 1
+    return first_component * second_component
 
 #
 # Make sure you understand how this function works and what it does!
@@ -116,11 +116,9 @@ def display_hand(hand):
 
     hand: dictionary (string -> int)
     """
-    
     for letter in hand.keys():
-        for j in range(hand[letter]):
-             print(letter, end=' ')      # print all on the same line
-    print()                              # print an empty line
+        for i in range(hand[letter]):
+            print(letter, end=' ')
 
 #
 # Make sure you understand how this function works and what it does!
@@ -139,8 +137,7 @@ def deal_hand(n):
     n: int >= 0
     returns: dictionary (string -> int)
     """
-    
-    hand={}
+    hand = {}
     num_vowels = int(math.ceil(n / 3))
 
     for i in range(num_vowels):
