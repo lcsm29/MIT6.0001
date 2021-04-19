@@ -179,18 +179,19 @@ def update_hand(hand, word):
             needed[letter] += 1
         else:
             needed[letter] = 1
-    
-    new_hand = hand.copy()
-    # compare value and return
-    for letter, value in needed.items():
-        if hand[letter] < needed[letter]:
-            return None
-        else:
-            new_hand[letter] -= needed[letter]
-    
-    return new_hand
 
-    
+    # if player has enough letter, subtracting needed letters from (copied) hand and return it
+    hand_copy = hand.copy()
+    for letter, value in needed.items():
+        try:
+            if hand_copy[letter] < needed[letter]:
+                return None
+            else:
+                hand_copy[letter] -= needed[letter]
+        except KeyError:
+            continue
+    return hand_copy
+
 
 #
 # Problem #3: Test word validity
