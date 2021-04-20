@@ -7,4 +7,4 @@ venv
 __pycache__/
 *.py[cod]
 *$py.class
-# pycharm final test
+# vsc final test
