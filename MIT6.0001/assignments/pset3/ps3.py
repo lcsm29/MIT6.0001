@@ -227,8 +227,10 @@ def calculate_handlen(hand):
     hand: dictionary (string-> int)
     returns: integer
     """
-    
-    pass  # TO DO... Remove this line when you implement this function
+    length = 0
+    for letter in hand:
+        length += hand[letter]
+    return length
 
 def play_hand(hand, word_list):
 
@@ -263,36 +265,37 @@ def play_hand(hand, word_list):
     
     # BEGIN PSEUDOCODE <-- Remove this comment when you implement this function
     # Keep track of the total score
-    
+    total_score = 0
     # As long as there are still letters left in the hand:
-    
+    while hand is not {}:
         # Display the hand
-        
+        print(f"Your hand: {hand}")
         # Ask user for input
-        
+        user_input = input("Input a word (!! to interrupt): ")
         # If the input is two exclamation points:
-        
+        if user_input == "!!":
             # End the game (break out of the loop)
-
-            
+            break
         # Otherwise (the input is not two exclamation points):
-
+        else:
             # If the word is valid:
-
+            if is_valid_word(word, hand, word_list):
                 # Tell the user how many points the word earned,
                 # and the updated total score
-
+                print(f"You earned {get_word_score(word, len(user_input))} points.")
+                total_score += get_word_score(word, len(user_input))
             # Otherwise (the word is not valid):
+            else:
                 # Reject invalid word (print a message)
-                
+                print("That's an invalid word")
             # update the user's hand by removing the letters of their inputted word
-            
+            update_hand(hand, word)
 
     # Game is over (user entered '!!' or ran out of letters),
     # so tell user the total score
-
+    print(f"Your total score is {total_score}")
     # Return the total score as result of function
-
+    return total_score
 
 
 #
