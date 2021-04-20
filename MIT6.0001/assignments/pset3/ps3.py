@@ -174,20 +174,21 @@ def update_hand(hand, word):
     """
     # converting word to dictionary format
     needed = {}
-    for letter in word:
+    for letter in word.lower():
         if letter in needed:
-            needed[letter] += 1
+            needed[letter.lower()] += 1
         else:
-            needed[letter] = 1
-
+            needed[letter.lower()] = 1
     # if player has enough letter, subtracting needed letters from (copied) hand and return it
     hand_copy = hand.copy()
-    for letter, value in needed.items():
+    for letter in needed.keys():
         try:
             if hand_copy[letter] < needed[letter]:
-                return None
+                break
             else:
                 hand_copy[letter] -= needed[letter]
+                if hand_copy[letter] == 0:
+                    hand_copy.pop(letter)
         except KeyError:
             continue
     return hand_copy
