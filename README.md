@@ -1,4 +1,4 @@
-# [MIT 6.0001](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/) - Introduction to CS and Programming in Python
+# [MIT 6.0001](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/) - Intro to CS and Programming in Python
 
 Beware! :eyes: This is not only my first attempt at learning Python, but also my first time at programming as well as Git. Thus, be prepared to see horrible code and commit history. The original intent of using GitHub was to provide a complete history of mistakes and progresses, but I managed to wreck some early portion of file history by moving folders around without thinking. I'm pretty sure that there is a way to restore the file history, but I've decided not to go after it, since a) the old commit history still exists, b) I'm only at half way point and all future records will be kept unless I wreck it again, and c) I'm too tired of tinkering at this moment.
 
