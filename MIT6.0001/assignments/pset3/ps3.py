@@ -208,7 +208,13 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     returns: boolean
     """
-
+    if word.lower() not in word_list:
+        return False
+    else:
+        if update_hand(hand, word) == hand:
+            return False
+        else:
+            return True
     pass  # TO DO... Remove this line when you implement this function
 
 #
