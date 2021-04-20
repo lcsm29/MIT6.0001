@@ -469,7 +469,7 @@ def c54():
 
 
 # chapter 6 recursion and global variables - write a recursive function that computes the harmonic sum of an integer (n > 0)
-# chapter 6.1 Fibonacci numbers - when the implementation of fib in Fig. 6-3 is used to compute fib(5), 
+# chapter 6.1 Fibonacci numbers - when the implementation of fib in Fig. 6-3 is used to compute fib(5),
 # how many times does it compute the value of fib(2) on the way to compute fib(5)?
 ''' Fig6-3
 def fib(n):
