@@ -366,10 +366,8 @@ def play_game(word_list):
 
     word_list: list of lowercase strings
     """
-    '''
     score = 0
     remaining_sub_chance = 1
-
 
     if remaining_sub_chance:
         user_input_sub = input("Would you like to substitute one letter for another? ")
@@ -377,7 +375,7 @@ def play_game(word_list):
             letter = input("Enter the desired letter")
             hand = substitute_hand(hand, letter)
             remaining_sub_chance -= 1
-    '''
+
 #
 # Build data structures used for entire session and play game
 # Do not remove the "if __name__ == '__main__':" line - this code is executed
