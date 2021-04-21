@@ -193,7 +193,7 @@ def update_hand(hand, word):
         except KeyError:
             continue
     return hand_copy
-
+#multiline test2
 #
 # Problem #3: Test word validity
 #
