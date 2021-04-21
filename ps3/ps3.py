@@ -193,7 +193,7 @@ def update_hand(hand, word):
         except KeyError:
             continue
     return hand_copy
-#multiline test2
+
 #
 # Problem #3: Test word validity
 #
@@ -208,13 +208,27 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     returns: boolean
     """
-    if word.lower() not in word_list:
-        return False
+    for char in word.lower():
+        if char not in hand:
+            return False
+
+    if '*' in word:
+        for letter in VOWELS:
+            temp_word = word
+            temp_word = temp_word.replace('*', letter)
+            temp_hand = hand.copy()
+            temp_hand.pop('*')
+            temp_hand[letter] = temp_hand.get(letter, 0) + 1
+            if temp_word in word_list and update_hand(temp_hand, temp_word) is not temp_hand:
+                return True
     else:
-        if update_hand(hand, word) == hand:
+        if word.lower() not in word_list:
             return False
         else:
-            return True
+            if update_hand(hand, word) == hand:
+                return False
+            else:
+                return True
 
 #
 # Problem #5: Playing a hand
