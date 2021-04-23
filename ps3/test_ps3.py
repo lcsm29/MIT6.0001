@@ -234,6 +234,16 @@ def test_wildcard(word_list):
 
         failure = True    
 
+    # test 5
+    hand = {'e': 1, 'o': 1, '*': 1, 'j': 1, 'm':1, 'y':1, 'h':1}
+    word = "mojo"
+
+    if  is_valid_word(word, hand, word_list):
+        print("FAILURE: test_is_valid_word()")
+        print("\tExpected False, but got True for word: '" + word + "' and hand:", hand)
+        
+        failure = True
+
     # dictionary of words and scores WITH wildcards
     words = {("h*ney", 7):290, ("c*ws", 6):176, ("wa*ls", 7):203}
     for (word, n) in words.keys():
