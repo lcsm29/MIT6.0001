@@ -202,7 +202,6 @@ def update_hand(hand, word):
             continue
     return hand_copy
 
-# TODO debug. there is a problem on either is_valid_word() or update_hand()
 #
 # Problem #3: Test word validity
 #
