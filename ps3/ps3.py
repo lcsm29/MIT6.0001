@@ -217,8 +217,9 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     returns: boolean
     """
-    for char in word.lower():
-        if char not in hand:
+    char_count = {char: word.lower().count(char) for char in word.lower()}
+    for char in char_count.keys():
+        if char not in hand or char_count[char] > hand[char]:
             return False
 
     if '*' in word:
