@@ -6,6 +6,10 @@
 # John V. Guttag, 2021
 # LCCN 2020036760 | ISBN 9780262542364 (paperback)
 
+# if you're running it on Windows, install windows-curses with the following command;
+# pip install windows-curses
+import curses
+
 # chapter 1 getting started
 def c1():
     import time
@@ -486,17 +490,92 @@ def test_fib(n):
 
 
 
-# chapter caller
-chapter_call = input("Chapter Selector\n-------------------------------------------\n"
-                     "Command Examples"
-                     "First exercise on Chapter 2.3 = c23\n"
-                     "Third exercise on Chapter 4.1.1 = c411b\n"
-                     "The last chapter on this code = <enter>\n-------------------------------------------\n"
-                     "Enter the chapter name [default: the last chapter]: ")
-if chapter_call in locals().keys() and callable(locals()[chapter_call]):
-    locals()[chapter_call]()
-elif chapter_call == '':
-    last_chapter = dir()[-2]
-    locals()[last_chapter]()
-else:
-    print("No such function exists")
+# old chapter caller
+def old_chapter_selector():
+    chapter_call = input("Chapter Selector\n-------------------------------------------\n"
+                        "Command Examples"
+                        "First exercise on Chapter 2.3 = c23\n"
+                        "Third exercise on Chapter 4.1.1 = c411b\n"
+                        "The last chapter on this code = <enter>\n-------------------------------------------\n"
+                        "Enter the chapter name [default: the last chapter]: ")
+    if chapter_call in locals().keys() and callable(locals()[chapter_call]):
+        locals()[chapter_call]()
+    elif chapter_call == '':
+        last_chapter = dir()[-2]
+        locals()[last_chapter]()
+    else:
+        print("No such function exists")
+
+
+
+def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
+    menu = ['Home', 
+            'Chapter 1', 
+            'Chapter 2', 
+            'Chapter 3', 
+            'Chapter 4', 
+            'Chapter 5', 
+            'Old Selector',
+            'Exit']
+
+
+    def print_menu(stdscr, selected_row_idx):
+        stdscr.clear()
+        height, width = stdscr.getmaxyx()
+        for idx, row in enumerate(menu):
+            x = width // 2 - len(row) // 2
+            y = height // 2 - len(menu) // 2 + idx
+            if idx == selected_row_idx:
+                stdscr.attron(curses.color_pair(1))
+                stdscr.addstr(y, x, row)
+                stdscr.attroff(curses.color_pair(1))
+            else:
+                stdscr.addstr(y, x, row)
+        stdscr.refresh()
+
+
+    def print_center(stdscr, text):
+        stdscr.clear()
+        height, width = stdscr.getmaxyx()
+        x = width // 2 - len(text) // 2
+        y = height // 2
+        stdscr.addstr(y, x, text)
+        stdscr.refresh()
+
+
+    def selector(stdscr):
+        curses.curs_set(0)  # turn off cursor blinking
+        curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)  # color scheme for selected row
+        current_row = 0  # specify the current selected row
+
+        print_menu(stdscr, current_row)  # print the menu
+
+        while True:
+            key = stdscr.getch()
+            stdscr.keypad(True)  # KEY_UP/LEFT/DOWN/RIGHT not working for unknown reason
+            if key in [curses.KEY_UP, 450, curses.KEY_LEFT, 452] and current_row > 0:
+                current_row -= 1
+            elif key in [curses.KEY_DOWN, 456, curses.KEY_RIGHT, 454] and current_row < len(menu)-1:
+                current_row += 1
+            elif key == curses.KEY_ENTER or key in [10, 13]:
+                print_center(stdscr, "You selected '{}'".format(menu[current_row]))
+                stdscr.getch()
+                curses.endwin()
+                break
+            print_menu(stdscr, current_row)
+        if current_row == 1:
+            c1()
+    curses.wrapper(selector)
+
+
+if __name__ == '__main__':
+    try:
+        import curses
+    except ModuleNotFoundError:
+        # if you're running this on Windows,
+        # and seeing either ModuleNotFoundError or old chapter selector,
+        # install windows-curses with the following command;
+        # pip install windows-curses
+        old_chapter_selector()
+    
+    chapter_selector()
