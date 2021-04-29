@@ -22,6 +22,15 @@ def get_permutations(sequence):
     Note: depending on your implementation, you may return the permutations in
     a different order than what is listed here.
     '''
+    if len(sequence) == 1:
+        return [sequence]
+    else:
+        permutations = []
+        for index, fixed_char in enumerate(sequence):
+            for rest_perms in get_permutations(sequence[:index] + sequence[index + 1:]):
+                permutations.append(fixed_char + rest_perms)
+        return list(dict.fromkeys(permutations))
+
 
     pass #delete this line and replace with your code here
 
@@ -36,5 +45,17 @@ if __name__ == '__main__':
 #    to be three characters or fewer as you will have n! permutations for a 
 #    sequence of length n)
 
-    pass #delete this line and replace with your code here
+    example_input = 'abc'
+    print('Input:', example_input)
+    print('Expected Output:', ['abc', 'acb', 'bac', 'bca', 'cab', 'cba'])
+    print('Actual Output:', get_permutations(example_input))
 
+    example_input = 'foo'
+    print('Input:', example_input)
+    print('Expected Output:', ['foo', 'ofo', 'oof'])
+    print('Actual Output:', get_permutations(example_input))
+
+    example_input = 'ttt'
+    print('Input:', example_input)
+    print('Expected Output:', ['ttt'])
+    print('Actual Output:', get_permutations(example_input))
