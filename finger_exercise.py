@@ -517,14 +517,19 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
             'Chapter 5', 
             'Old Selector',
             'Exit']
+    chapters = [['Chapter 1'],
+                ['Chapter 2.3', 'Chapter 2.4.1', 'Chapter 2.5 - First', 'Chapter 2.5 - Second', 'Chapter 2.6'],
+                ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
+                ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
+                ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4']]
 
 
-    def print_menu(stdscr, selected_row_idx):
+    def print_menu(stdscr, selected_row_idx, content):
         stdscr.clear()
         height, width = stdscr.getmaxyx()
-        for idx, row in enumerate(menu):
+        for idx, row in enumerate(content):
             x = width // 2 - len(row) // 2
-            y = height // 2 - len(menu) // 2 + idx
+            y = height // 2 - len(content) // 2 + idx
             if idx == selected_row_idx:
                 stdscr.attron(curses.color_pair(1))
                 stdscr.addstr(y, x, row)
@@ -548,7 +553,7 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
         curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)  # color scheme for selected row
         current_row = 0  # specify the current selected row
 
-        print_menu(stdscr, current_row)  # print the menu
+        print_menu(stdscr, current_row, menu)  # print the menu
 
         while True:
             key = stdscr.getch()
@@ -559,13 +564,32 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
                 current_row += 1
             elif key == curses.KEY_ENTER or key in [10, 13]:
                 print_center(stdscr, "You selected '{}'".format(menu[current_row]))
-                stdscr.getch()
-                curses.endwin()
-                break
-            print_menu(stdscr, current_row)
-        if current_row == 1:
-            c1()
-    curses.wrapper(selector)
+                if current_row == 1:
+                    stdscr.getch()
+                    curses.endwin()
+                    return [['Chapter 1'], 0]
+                elif 1 < current_row < len(menu) - 1:
+                    submenu = chapters[current_row - 1]
+                    current_row = 0
+                    print_menu(stdscr, current_row, submenu)
+                    while True:
+                        key = stdscr.getch()
+                        stdscr.keypad(True)  # KEY_UP/LEFT/DOWN/RIGHT not working for unknown reason
+                        if key in [curses.KEY_UP, 450, curses.KEY_LEFT, 452] and current_row > 0:
+                            current_row -= 1
+                        elif key in [curses.KEY_DOWN, 456, curses.KEY_RIGHT, 454] and current_row < len(submenu)-1:
+                            current_row += 1
+                        elif key == curses.KEY_ENTER or key in [10, 13]:
+                            print_center(stdscr, "You selected '{}'".format(submenu[current_row]))
+                            stdscr.getch()
+                            curses.endwin()
+                            return submenu, current_row
+                        print_menu(stdscr, current_row, submenu)
+            print_menu(stdscr, current_row, menu)
+#        locals()[selected_chapter]()
+    selected_chapter = curses.wrapper(selector)
+    return selected_chapter
+
 
 
 if __name__ == '__main__':
@@ -578,4 +602,24 @@ if __name__ == '__main__':
         # pip install windows-curses
         old_chapter_selector()
     
-    chapter_selector()
+    selected_chapter = chapter_selector()
+    selected_chapter = selected_chapter[0][selected_chapter[1]]
+    print(selected_chapter)
+    chapters = [['Chapter 1'],
+                ['Chapter 2.3', 'Chapter 2.4.1', 'Chapter 2.5 - First', 'Chapter 2.5 - Second', 'Chapter 2.6'],
+                ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
+                ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
+                ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4']]
+
+    
+    def get_position(element):
+        position = 0
+        for chapter in chapters:
+            for subchapter in chapter:
+                position += 1
+                if element == subchapter:
+                    return position
+
+    chap_position = int(get_position(selected_chapter)) + 8
+    func_to_call = dir()[chap_position]
+    locals()[func_to_call]()
