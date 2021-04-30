@@ -27,8 +27,8 @@ def get_permutations(sequence):
     else:
         permutations = []
         for index, fixed_char in enumerate(sequence):
-            for rest_perms in get_permutations(sequence[:index] + sequence[index + 1:]):
-                permutations.append(fixed_char + rest_perms)
+            for partial_perm in get_permutations(sequence[:index] + sequence[index + 1:]):
+                permutations.append(fixed_char + partial_perm)
         return list(dict.fromkeys(permutations))
 
 
