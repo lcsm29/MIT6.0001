@@ -508,24 +508,38 @@ def test_fib(n):
         print('fib of', i, '=', fib(i))
 '''
 def c61():
-    pass
+    counter = 0
+    def fib(n):
+        """Assumes n int >= 0
+        Returns Fibonacci of n"""
+        if n == 2:
+            counter += 1
+        if n == 0 or n == 1:
+            return 1
+        else:
+            return fib(n-1) + fib(n-2)
+    print(f"fib(2) was calculated {counter} times when computing fib(5)")
 
 
 # old chapter caller
 def old_chapter_selector():
-    glob = globals()
-    keys = globals().keys()
-    dirs = dir()
-    chapter_call = input("Chapter Selector\n-------------------------------------------\n"
-                        "Command Examples\n"
-                        "First exercise on Chapter 2.3 = c23\n"
-                        "Third exercise on Chapter 4.1.1 = c411b\n-------------------------------------------\n"
-                        "Enter the chapter name: ")
+    chapter_list = [chapter for chapter in globals().keys() if 'c' in chapter and len(chapter) < 7]
+    chapter_call = ''
+    while chapter_call not in chapter_list and chapter_call != 'l':
+        chapter_call = input("Chapter Selector\n-------------------------------------------\n"
+                            "First exercise on Chapter 2.3: c23\n"
+                            "Third exercise on Chapter 4.1.1: c411b\n"
+                            "type 'l' to see the chapter list\n-------------------------------------------\n"
+                            "Enter the chapter name: ")
+        if chapter_call == 'l':
+            chapter_call = ''
+            print('A list of finger exercises:')
+            for chapter in chapter_list:
+                print(chapter)
     if chapter_call in globals() and callable(globals()[chapter_call]):
         globals()[chapter_call]()
     else:
         print("No such function exists")
-
 
 
 def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
@@ -542,7 +556,7 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
                 ['Chapter 2.3', 'Chapter 2.4.1', 'Chapter 2.5 - First', 'Chapter 2.5 - Second', 'Chapter 2.6'],
                 ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
                 ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
-                ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4']
+                ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4'],
                 ['Chapter 6', 'Chapter 6.1']]
 
 
@@ -619,6 +633,31 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
 if __name__ == '__main__':
     try:
         import curses
+        selected_chapter = chapter_selector()
+        if selected_chapter == [['Old Selector', 0]]:
+            old_chapter_selector()
+        else:
+            selected_chapter = selected_chapter[0][selected_chapter[1]]
+            print(selected_chapter)
+
+            chapters = [['Chapter 1'],
+                        ['Chapter 2.3', 'Chapter 2.4.1', 'Chapter 2.5 - First', 'Chapter 2.5 - Second', 'Chapter 2.6'],
+                        ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
+                        ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
+                        ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4'],
+                        ['Chapter 6', 'Chapter 6.1']]
+            
+            def get_position(element):
+                position = 0
+                for chapter in chapters:
+                    for subchapter in chapter:
+                        position += 1
+                        if element == subchapter:
+                            return position
+
+            chap_position = int(get_position(selected_chapter)) + 8
+            func_to_call = dir()[chap_position]
+            locals()[func_to_call]()
     except ModuleNotFoundError:
         # if you're running this on Windows,
         # and seeing either ModuleNotFoundError or old chapter selector,
@@ -626,27 +665,4 @@ if __name__ == '__main__':
         # pip install windows-curses
         old_chapter_selector()
     
-    selected_chapter = chapter_selector()
-    if selected_chapter == [['Old Selector', 0]]:
-        old_chapter_selector()
-    else:
-        selected_chapter = selected_chapter[0][selected_chapter[1]]
-        print(selected_chapter)
-
-        chapters = [['Chapter 1'],
-                    ['Chapter 2.3', 'Chapter 2.4.1', 'Chapter 2.5 - First', 'Chapter 2.5 - Second', 'Chapter 2.6'],
-                    ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
-                    ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
-                    ['Chapter 6', 'Chapter 6.1']]
-        
-        def get_position(element):
-            position = 0
-            for chapter in chapters:
-                for subchapter in chapter:
-                    position += 1
-                    if element == subchapter:
-                        return position
-
-        chap_position = int(get_position(selected_chapter)) + 8
-        func_to_call = dir()[chap_position]
-        locals()[func_to_call]()
+    
