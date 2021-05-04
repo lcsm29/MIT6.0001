@@ -8,7 +8,7 @@
 
 # if you're running it on Windows, install windows-curses with the following command;
 # pip install windows-curses
-import curses
+
 
 # chapter 1 getting started
 def c1():
@@ -492,17 +492,16 @@ def test_fib(n):
 
 # old chapter caller
 def old_chapter_selector():
+    glob = globals()
+    keys = globals().keys()
+    dirs = dir()
     chapter_call = input("Chapter Selector\n-------------------------------------------\n"
-                        "Command Examples"
+                        "Command Examples\n"
                         "First exercise on Chapter 2.3 = c23\n"
-                        "Third exercise on Chapter 4.1.1 = c411b\n"
-                        "The last chapter on this code = <enter>\n-------------------------------------------\n"
-                        "Enter the chapter name [default: the last chapter]: ")
-    if chapter_call in locals().keys() and callable(locals()[chapter_call]):
-        locals()[chapter_call]()
-    elif chapter_call == '':
-        last_chapter = dir()[-2]
-        locals()[last_chapter]()
+                        "Third exercise on Chapter 4.1.1 = c411b\n-------------------------------------------\n"
+                        "Enter the chapter name: ")
+    if chapter_call in globals() and callable(globals()[chapter_call]):
+        globals()[chapter_call]()
     else:
         print("No such function exists")
 
@@ -568,7 +567,7 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
                     stdscr.getch()
                     curses.endwin()
                     return [['Chapter 1'], 0]
-                elif 1 < current_row < len(menu) - 1:
+                elif 1 < current_row < len(menu) - 2:
                     submenu = chapters[current_row - 1]
                     current_row = 0
                     print_menu(stdscr, current_row, submenu)
@@ -585,6 +584,8 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
                             curses.endwin()
                             return submenu, current_row
                         print_menu(stdscr, current_row, submenu)
+                else:
+                    return [['Old Selector', 0]]
             print_menu(stdscr, current_row, menu)
 #        locals()[selected_chapter]()
     selected_chapter = curses.wrapper(selector)
@@ -603,23 +604,26 @@ if __name__ == '__main__':
         old_chapter_selector()
     
     selected_chapter = chapter_selector()
-    selected_chapter = selected_chapter[0][selected_chapter[1]]
-    print(selected_chapter)
-    chapters = [['Chapter 1'],
-                ['Chapter 2.3', 'Chapter 2.4.1', 'Chapter 2.5 - First', 'Chapter 2.5 - Second', 'Chapter 2.6'],
-                ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
-                ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
-                ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4']]
+    if selected_chapter == [['Old Selector', 0]]:
+        old_chapter_selector()
+    else:
+        selected_chapter = selected_chapter[0][selected_chapter[1]]
+        print(selected_chapter)
 
-    
-    def get_position(element):
-        position = 0
-        for chapter in chapters:
-            for subchapter in chapter:
-                position += 1
-                if element == subchapter:
-                    return position
+        chapters = [['Chapter 1'],
+                    ['Chapter 2.3', 'Chapter 2.4.1', 'Chapter 2.5 - First', 'Chapter 2.5 - Second', 'Chapter 2.6'],
+                    ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
+                    ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
+                    ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4']]
+        
+        def get_position(element):
+            position = 0
+            for chapter in chapters:
+                for subchapter in chapter:
+                    position += 1
+                    if element == subchapter:
+                        return position
 
-    chap_position = int(get_position(selected_chapter)) + 8
-    func_to_call = dir()[chap_position]
-    locals()[func_to_call]()
+        chap_position = int(get_position(selected_chapter)) + 8
+        func_to_call = dir()[chap_position]
+        locals()[func_to_call]()
