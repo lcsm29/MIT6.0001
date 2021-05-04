@@ -473,6 +473,26 @@ def c54():
 
 
 # chapter 6 recursion and global variables - write a recursive function that computes the harmonic sum of an integer (n > 0)
+def c6():
+    integer = 0
+    while integer <= 0:
+        try:
+            temp_input = input(f"\nEnter an integer (n > 0): ")
+            integer = int(temp_input)
+        except ValueError:
+            print("You have to enter an integer. Try again.\n")
+            continue
+        if integer <= 0:
+            print("You have to enter a positive integer. Try Again.\n")
+    
+    def harmonic_sum(number):
+        if number < 2:
+            return 1
+        else:
+            return 1 / number + (harmonic_sum(number - 1))
+    print(f"Harmonic sum of {integer} is {harmonic_sum(integer)}")
+
+
 # chapter 6.1 Fibonacci numbers - when the implementation of fib in Fig. 6-3 is used to compute fib(5),
 # how many times does it compute the value of fib(2) on the way to compute fib(5)?
 ''' Fig6-3
@@ -487,7 +507,8 @@ def test_fib(n):
     for i in range(n+1):
         print('fib of', i, '=', fib(i))
 '''
-
+def c61():
+    pass
 
 
 # old chapter caller
@@ -514,13 +535,15 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
             'Chapter 3', 
             'Chapter 4', 
             'Chapter 5', 
+            'Chapter 6',
             'Old Selector',
             'Exit']
     chapters = [['Chapter 1'],
                 ['Chapter 2.3', 'Chapter 2.4.1', 'Chapter 2.5 - First', 'Chapter 2.5 - Second', 'Chapter 2.6'],
                 ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
                 ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
-                ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4']]
+                ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4']
+                ['Chapter 6', 'Chapter 6.1']]
 
 
     def print_menu(stdscr, selected_row_idx, content):
@@ -614,7 +637,7 @@ if __name__ == '__main__':
                     ['Chapter 2.3', 'Chapter 2.4.1', 'Chapter 2.5 - First', 'Chapter 2.5 - Second', 'Chapter 2.6'],
                     ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
                     ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
-                    ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4']]
+                    ['Chapter 6', 'Chapter 6.1']]
         
         def get_position(element):
             position = 0
