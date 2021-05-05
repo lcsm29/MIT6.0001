@@ -555,6 +555,23 @@ def c72a():
     print(f"The number of days between Canadian Thanksgiving and Christmas in {year} is {shopping_days(year)}")
 
 
+# Chapter 7.3 Files - store the first 10 Fibonnaci sequence to a file fib_file (each number on a separate line), and print the content of file
+def c73():
+    def fib(num, file_name):
+        known_fibs = [0, 1]
+        for _ in range(num):
+            next_fib = known_fibs[0] + known_fibs[1]
+            known_fibs[0] = known_fibs[1]
+            known_fibs[1] = next_fib
+            file_name.write(str(known_fibs[0]) + '\n')
+        return known_fibs[0]
+    with open('fib_file', 'w') as file_name:
+        fib(10, file_name)
+    with open('fib_file', 'r') as file_name:
+        for line in file_name:
+            print(line, end='')
+
+
 # old chapter caller
 def old_chapter_selector():
     chapter_list = [chapter for chapter in globals().keys() if 'c' in chapter and len(chapter) < 7]
@@ -592,8 +609,8 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
                 ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
                 ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
                 ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4'],
-                ['Chapter 6', 'Chapter 6.1']
-                ['Chapter 7.2 - First', 'Chapter 7.2 - Second']]
+                ['Chapter 6', 'Chapter 6.1'],
+                ['Chapter 7.2 - First', 'Chapter 7.2 - Second', 'Chapter 7.3']]
 
 
     def print_menu(stdscr, selected_row_idx, content):
@@ -679,8 +696,8 @@ if __name__ == '__main__':
                         ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
                         ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
                         ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4'],
-                        ['Chapter 6', 'Chapter 6.1']
-                        ['Chapter 7.2 - First', 'Chapter 7.2 - Second']]
+                        ['Chapter 6', 'Chapter 6.1'],
+                        ['Chapter 7.2 - First', 'Chapter 7.2 - Second', 'Chapter 7.3']]
             
             def get_position(element):
                 position = 0
