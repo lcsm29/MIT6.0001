@@ -521,6 +521,40 @@ def c61():
     print(f"fib(2) was calculated {counter} times when computing fib(5)")
 
 
+# Chapter 7.2 using predefined packages - write a function that meets the specification
+def c72():
+    def shopping_days(year):
+        """year a number >= 1941
+           returns the number of days between U.S. Thanksgiving and Christmas in year"""
+        return 24 + 30 - find_thanksgiving(year)
+    def find_thanksgiving(year):
+        month = cal.monthcalendar(year, 11)
+        if month[0][cal.THURSDAY] != 0:
+            thanksgiving = month[3][cal.THURSDAY]
+        else:
+            thanksgiving = month[4][cal.THURSDAY]
+        return thanksgiving
+    import calendar as cal
+    year = int(input("Enter the year (>= 1941): "))
+    print(f"The number of days between Thanksgiving and Christmas in {year} is {shopping_days(year)}")
+
+
+# Chapter 7.2 using predefined packages - calculate shopping days for Canadian Thanksgiving (second Monday on Oct, since 1958)
+def c72a():
+    def shopping_days(year):
+        return 24 + 30 + 31 - find_thanksgiving(year)
+    def find_thanksgiving(year):
+        month = cal.monthcalendar(year, 10)
+        if month[0][cal.MONDAY] != 0:
+            thanksgiving = month[1][cal.MONDAY]
+        else:
+            thanksgiving = month[2][cal.MONDAY]
+        return thanksgiving
+    import calendar as cal
+    year = int(input("Enter the year (> 1957): "))
+    print(f"The number of days between Canadian Thanksgiving and Christmas in {year} is {shopping_days(year)}")
+
+
 # old chapter caller
 def old_chapter_selector():
     chapter_list = [chapter for chapter in globals().keys() if 'c' in chapter and len(chapter) < 7]
@@ -550,6 +584,7 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
             'Chapter 4', 
             'Chapter 5', 
             'Chapter 6',
+            'Chapter 7',
             'Old Selector',
             'Exit']
     chapters = [['Chapter 1'],
@@ -557,7 +592,8 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
                 ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
                 ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
                 ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4'],
-                ['Chapter 6', 'Chapter 6.1']]
+                ['Chapter 6', 'Chapter 6.1']
+                ['Chapter 7.2 - First', 'Chapter 7.2 - Second']]
 
 
     def print_menu(stdscr, selected_row_idx, content):
@@ -624,10 +660,8 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
                 else:
                     return [['Old Selector', 0]]
             print_menu(stdscr, current_row, menu)
-#        locals()[selected_chapter]()
     selected_chapter = curses.wrapper(selector)
     return selected_chapter
-
 
 
 if __name__ == '__main__':
@@ -645,7 +679,8 @@ if __name__ == '__main__':
                         ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
                         ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
                         ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4'],
-                        ['Chapter 6', 'Chapter 6.1']]
+                        ['Chapter 6', 'Chapter 6.1']
+                        ['Chapter 7.2 - First', 'Chapter 7.2 - Second']]
             
             def get_position(element):
                 position = 0
@@ -664,5 +699,3 @@ if __name__ == '__main__':
         # install windows-curses with the following command;
         # pip install windows-curses
         old_chapter_selector()
-    
-    
