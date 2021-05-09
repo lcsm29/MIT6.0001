@@ -5,6 +5,7 @@
 
 import string
 
+
 ### HELPER CODE ###
 def load_words(file_name):
     '''
@@ -26,6 +27,7 @@ def load_words(file_name):
     print("  ", len(wordlist), "words loaded.")
     return wordlist
 
+
 def is_word(word_list, word):
     '''
     Determines if word is a valid word, ignoring
@@ -46,6 +48,7 @@ def is_word(word_list, word):
     word = word.strip(" !@#$%^&*()-_+={}[]|\:;'<>?,./\"")
     return word in word_list
 
+
 def get_story_string():
     """
     Returns: a story in encrypted text.
@@ -55,9 +58,11 @@ def get_story_string():
     f.close()
     return story
 
+
 ### END HELPER CODE ###
 
 WORDLIST_FILENAME = 'words.txt'
+
 
 class Message(object):
     def __init__(self, text):
@@ -73,7 +78,6 @@ class Message(object):
         self.message_text = text
         self.valid_words = load_words(WORDLIST_FILENAME)
 
-
     def get_message_text(self):
         '''
         Used to safely access self.message_text outside of the class
@@ -81,7 +85,6 @@ class Message(object):
         Returns: self.message_text
         '''
         return self.message_text
-
 
     def get_valid_words(self):
         '''
@@ -91,7 +94,6 @@ class Message(object):
         Returns: a COPY of self.valid_words
         '''
         return self.valid_words.copy()
-
 
     def build_shift_dict(self, shift):
         '''
@@ -114,7 +116,6 @@ class Message(object):
         for k, v in shifter.copy().items():
             shifter[k.upper()] = v.upper()
         return shifter
-
 
     def apply_shift(self, shift):
         '''
@@ -156,7 +157,6 @@ class PlaintextMessage(Message):
         self.encryption_dict = self.build_shift_dict(shift)
         self.message_text_encrypted = self.apply_shift(shift)
 
-
     def get_shift(self):
         '''
         Used to safely access self.shift outside of the class
@@ -164,7 +164,6 @@ class PlaintextMessage(Message):
         Returns: self.shift
         '''
         return self.shift
-
 
     def get_encryption_dict(self):
         '''
@@ -174,7 +173,6 @@ class PlaintextMessage(Message):
         '''
         return self.encryption_dict.copy()
 
-
     def get_message_text_encrypted(self):
         '''
         Used to safely access self.message_text_encrypted outside of the class
@@ -182,7 +180,6 @@ class PlaintextMessage(Message):
         Returns: self.message_text_encrypted
         '''
         return self.message_text_encrypted
-
 
     def change_shift(self, shift):
         '''
@@ -212,7 +209,6 @@ class CiphertextMessage(Message):
         '''
         Message.__init__(self, text)
 
-
     def decrypt_message(self):
         '''
         Decrypt self.message_text by trying every possible shift value
@@ -238,21 +234,25 @@ class CiphertextMessage(Message):
 
 
 if __name__ == '__main__':
-
-    #Example test case (PlaintextMessage)
+    # Example test case (PlaintextMessage)
     plaintext = PlaintextMessage('hello', 2)
     print('Expected Output: jgnnq')
     print('Actual Output:', plaintext.get_message_text_encrypted())
 
-    #Example test case (CiphertextMessage)
+    # Example test case (CiphertextMessage)
     ciphertext = CiphertextMessage('jgnnq')
     print('Expected Output:', (24, 'hello'))
     print('Actual Output:', ciphertext.decrypt_message())
 
-    plaintext = PlaintextMessage('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 16)
-    print('Expected Output: Behuc yfikc tebeh iyj qcuj, sediusjujkh qtyfyisydw ubyj, iut te uykicet jucfeh ydsytytkdj kj bqrehu uj tebehu cqwdq qbygkq. Kj udyc qt cydyc ludyqc, gkyi deijhkt unuhsyjqjyed kbbqcse bqrehyi dyiy kj qbygkyf un uq seccete sediugkqj. Tkyi qkju yhkhu tebeh yd hufhuxudtuhyj yd lebkfjqju lubyj uiiu sybbkc tebehu uk vkwyqj dkbbq fqhyqjkh. Unsufjukh iydj essqusqj skfytqjqj ded fheytudj, ikdj yd skbfq gky evvysyq tuiuhkdj cebbyj qdyc yt uij bqrehkc.')
+    plaintext = PlaintextMessage(
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        16)
+    print(
+        'Expected Output: Behuc yfikc tebeh iyj qcuj, sediusjujkh qtyfyisydw ubyj, iut te uykicet jucfeh ydsytytkdj kj bqrehu uj tebehu cqwdq qbygkq. Kj udyc qt cydyc ludyqc, gkyi deijhkt unuhsyjqjyed kbbqcse bqrehyi dyiy kj qbygkyf un uq seccete sediugkqj. Tkyi qkju yhkhu tebeh yd hufhuxudtuhyj yd lebkfjqju lubyj uiiu sybbkc tebehu uk vkwyqj dkbbq fqhyqjkh. Unsufjukh iydj essqusqj skfytqjqj ded fheytudj, ikdj yd skbfq gky evvysyq tuiuhkdj cebbyj qdyc yt uij bqrehkc.')
     print('Actual Output:', plaintext.get_message_text_encrypted())
 
-    ciphertext = CiphertextMessage('Behuc yfikc tebeh iyj qcuj, sediusjujkh qtyfyisydw ubyj, iut te uykicet jucfeh ydsytytkdj kj bqrehu uj tebehu cqwdq qbygkq. Kj udyc qt cydyc ludyqc, gkyi deijhkt unuhsyjqjyed kbbqcse bqrehyi dyiy kj qbygkyf un uq seccete sediugkqj. Tkyi qkju yhkhu tebeh yd hufhuxudtuhyj yd lebkfjqju lubyj uiiu sybbkc tebehu uk vkwyqj dkbbq fqhyqjkh. Unsufjukh iydj essqusqj skfytqjqj ded fheytudj, ikdj yd skbfq gky evvysyq tuiuhkdj cebbyj qdyc yt uij bqrehkc.')
-    print('Expected Output:', (10, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'))
+    ciphertext = CiphertextMessage(
+        'Behuc yfikc tebeh iyj qcuj, sediusjujkh qtyfyisydw ubyj, iut te uykicet jucfeh ydsytytkdj kj bqrehu uj tebehu cqwdq qbygkq. Kj udyc qt cydyc ludyqc, gkyi deijhkt unuhsyjqjyed kbbqcse bqrehyi dyiy kj qbygkyf un uq seccete sediugkqj. Tkyi qkju yhkhu tebeh yd hufhuxudtuhyj yd lebkfjqju lubyj uiiu sybbkc tebehu uk vkwyqj dkbbq fqhyqjkh. Unsufjukh iydj essqusqj skfytqjqj ded fheytudj, ikdj yd skbfq gky evvysyq tuiuhkdj cebbyj qdyc yt uij bqrehkc.')
+    print('Expected Output:', (10,
+                               'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'))
     print('Actual Output:', ciphertext.decrypt_message())

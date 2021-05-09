@@ -32,8 +32,6 @@ def get_permutations(sequence):
         return list(dict.fromkeys(permutations))
 
 
-    pass #delete this line and replace with your code here
-
 if __name__ == '__main__':
 #    #EXAMPLE
 #    example_input = 'abc'
