@@ -70,7 +70,9 @@ class Message(object):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         '''
-        pass #delete this line and replace with your code here
+        self.message_text = text
+        self.valid_words = load_words(WORDLIST_FILENAME)
+
 
     def get_message_text(self):
         '''
@@ -78,7 +80,8 @@ class Message(object):
         
         Returns: self.message_text
         '''
-        pass #delete this line and replace with your code here
+        return self.message_text
+
 
     def get_valid_words(self):
         '''
@@ -87,7 +90,8 @@ class Message(object):
         
         Returns: a COPY of self.valid_words
         '''
-        pass #delete this line and replace with your code here
+        return self.valid_words.copy()
+
 
     def build_shift_dict(self, shift):
         '''
@@ -103,7 +107,14 @@ class Message(object):
         Returns: a dictionary mapping a letter (string) to 
                  another letter (string). 
         '''
-        pass #delete this line and replace with your code here
+        assert type(shift) == int, "shift has to be an integer"
+        assert 0 <= shift < 26, "shift out of range"
+        lo = string.ascii_lowercase * 2
+        shifter = {c: lo[i + shift] for i, c in enumerate(string.ascii_lowercase)}
+        for k, v in shifter.copy().items():
+            shifter[k.upper()] = v.upper()
+        return shifter
+
 
     def apply_shift(self, shift):
         '''
@@ -117,7 +128,12 @@ class Message(object):
         Returns: the message text (string) in which every character is shifted
              down the alphabet by the input shift
         '''
-        pass #delete this line and replace with your code here
+        assert type(shift) == int, "shift has to be an integer"
+        assert 0 <= shift < 26, "shift out of range"
+        shift_dict = self.build_shift_dict(shift)
+        shifted = [shift_dict[c] for c in self.message_text]
+        return ''.join(shifted)
+
 
 class PlaintextMessage(Message):
     def __init__(self, text, shift):
