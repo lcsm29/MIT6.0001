@@ -6,7 +6,7 @@
 * 📅 **Started** on March 29, 2021
 * 🏁 **Finished** on TBD
 * ℹ️ **Versions of python I'm using** (as of Apr 21, 2021): 3.8.2 (macOS), 3.9.4 (Ubuntu), 3.9.2 (Windows)
-* ⭐ **Recommended version**: Python 3.8 (feedparser.py produced an error on Python 3.9. I made some change to make it work, but I'm not sure it's an adequate fix)
+* ⭐ **Recommended version**: Python 3.8 (feedparser.py produced an error on Python 3.9. I made some change to make it work, but I'm not sure whether it's an adequate fix or not)
     
 ## Sources
 * [Problem Sets](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/assignments/) and [Lecture Code](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/lecture-slides-code/) - MIT OCW 6.0001 (Fall 2016 Course)
