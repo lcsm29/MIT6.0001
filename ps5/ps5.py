@@ -137,7 +137,7 @@ class TimeTrigger(Trigger):
 # Problem 6
 class BeforeTrigger(TimeTrigger):
     def evaluate(self, story):
-        if story.get_pubdate() < self.time:
+        if story.get_pubdate().replace(tzinfo=pytz.timezone("EST")) < self.time:
             return True
         else:
             return False
@@ -145,7 +145,7 @@ class BeforeTrigger(TimeTrigger):
 
 class AfterTrigger(TimeTrigger):
     def evaluate(self, story):
-        if story.get_pubdate() > self.time:
+        if story.get_pubdate().replace(tzinfo=pytz.timezone("EST")) > self.time:
             return True
         else:
             return False
