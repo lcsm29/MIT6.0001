@@ -137,18 +137,12 @@ class TimeTrigger(Trigger):
 # Problem 6
 class BeforeTrigger(TimeTrigger):
     def evaluate(self, story):
-        if story.get_pubdate().replace(tzinfo=pytz.timezone("EST")) < self.time:
-            return True
-        else:
-            return False
+        return story.get_pubdate().replace(tzinfo=pytz.timezone("EST")) < self.time
 
 
 class AfterTrigger(TimeTrigger):
     def evaluate(self, story):
-        if story.get_pubdate().replace(tzinfo=pytz.timezone("EST")) > self.time:
-            return True
-        else:
-            return False
+        return story.get_pubdate().replace(tzinfo=pytz.timezone("EST")) > self.time
 
 
 # COMPOSITE TRIGGERS
@@ -194,10 +188,13 @@ def filter_stories(stories, triggerlist):
 
     Returns: a list of only the stories for which a trigger in triggerlist fires.
     """
-    # TODO: Problem 10
-    # This is a placeholder
-    # (we're just returning all the stories, with no filtering)
-    return stories
+    triggered = []
+    for story in stories:
+        for trigger in triggerlist:
+            if trigger.evaluate(story):
+                triggered.append(story)
+                break
+    return triggered
 
 
 
@@ -220,12 +217,27 @@ def read_trigger_config(filename):
         line = line.rstrip()
         if not (len(line) == 0 or line.startswith('//')):
             lines.append(line)
-
-    # TODO: Problem 11
-    # line is the list of lines that you need to parse and for which you need
-    # to build triggers
-
-    print(lines) # for now, print it so you see what it contains!
+    t_type = {
+        'TITLE': TitleTrigger,
+        'DESCRIPTION': DescriptionTrigger,
+        'AFTER': AfterTrigger,
+        'BEFORE': BeforeTrigger,
+        'NOT': NotTrigger,
+        'AND': AndTrigger,
+        'OR': OrTrigger
+    }
+    t_dict = {}
+    t_list = []
+    for line in lines:
+        l = line.split()
+        if l[0] != 'ADD':
+            if l[1] in ('OR', 'AND'):
+                t_dict[l[0]] = t_type[l[1]](t_dict[l[2]], t_dict[l[3]])
+            else:
+                t_dict[l[0]] = t_type[l[1]](l[2])
+        else:
+            t_list[:] += [t_dict[e] for e in l[1:]]
+    return t_list
 
 
 
@@ -279,7 +291,7 @@ def main_thread(master):
             stories = process("http://news.google.com/news?output=rss")
 
             # Get stories from Yahoo's Top Stories RSS news feed
-            stories.extend(process("http://news.yahoo.com/rss/topstories"))
+#            stories.extend(process("http://news.yahoo.com/rss/topstories")) # this line is commented because it causes the following error: object has no attribute 'description'
 
             stories = filter_stories(stories, triggerlist)
 
