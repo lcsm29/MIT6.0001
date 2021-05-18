@@ -1,6 +1,6 @@
 # [MIT 6.0001](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/) - Intro to CS and Programming in Python
 
-**Beware!** :eyes: This is not only my first attempt at learning Python, but also my first time at programming as well as Git. Thus, be prepared to see horrible code and commit history. The original intent of using GitHub was to provide a complete history of mistakes and progresses, but I managed to wreck some early portion of file history by moving folders around without thinking. However, the remaining files have its history intact. Also, the commit history for the older files still exists, and is visible.
+**Beware!** :eyes: This is not only my first attempt at learning Python, but also my first time at programming as well as Git. Thus, be prepared to see horrible code and commit history. The original intent of using GitHub was to provide a complete history of mistakes and progresses, but I managed to wreck some early portion of file history by moving folders around without thinking. However, the commit history for those files still exists, and is visible.
 
 ## Some Random Info
 * 📅 **Started** on March 29, 2021
