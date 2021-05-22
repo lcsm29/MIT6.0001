@@ -555,7 +555,7 @@ def c72a():
     print(f"The number of days between Canadian Thanksgiving and Christmas in {year} is {shopping_days(year)}")
 
 
-# Chapter 7.3 Files - store the first 10 Fibonnaci sequence to a file fib_file (each number on a separate line), and print the content of file
+# Chapter 7.3 files - store the first 10 Fibonnaci sequence to a file fib_file (each number on a separate line), and print the content of file
 def c73():
     def fib(num, file_name):
         known_fibs = [0, 1]
@@ -570,6 +570,43 @@ def c73():
     with open('fib_file', 'r') as file_name:
         for line in file_name:
             print(line, end='')
+
+# Chapter 9.1 handling exceptions - implement sum_digits() that meets the specs with try-except
+def c91():
+    def sum_digits(s):
+        """ Assumes s is a string
+        Returns the sum of the decimal digits in s
+        For example, if s is 'a2b3c' it returns 5"""
+        digits = []
+        for _, c in enumerate(s):
+            try:
+                digits.append(int(c))
+            except ValueError:
+                continue
+        return sum(digits)
+    print(sum_digits(input("Enter a string: ")))
+
+
+# Chapter 9.2 exceptions as a control flow mechanism - implement find_an_eval() that satisfies the spec
+def c92():
+    def find_an_even(L):
+        """ Assumes L is a list of integers
+        Returns the first even number in L
+        Raises ValueError if L does not contain an even number"""
+        for elem in L:
+            if elem != 0 and elem % 2 == 0:
+                return elem
+        raise ValueError('L does not contain an even number')
+    selector = {'L1': [1, 3, 9, 0, 8, 4, 7], 'L2': [3, 0, 1, 5, 9, 5, 9], 'L3': [-1, 0, 3, -4, 8, 2, 7]}
+    while 1:    
+        selected = input('L1: [1, 3, 9, 0, 8, 4, 7]\
+        \nL2: [3, 0, 1, 5, 9, 5, 9]\
+        \nL3: [-1, 0, 3, -4, 8, 2, 7]\
+        \nEnter a list you want to test the find_an_even() (enter quit to exit): ').upper()
+        if selected in ('L1', 'L2', 'L3'):
+            print(f"find_an_even({selected}): {find_an_even(selector[selected])}")
+        if selected.lower().startswith('q'):
+            break
 
 
 # old chapter caller
@@ -602,6 +639,7 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
             'Chapter 5', 
             'Chapter 6',
             'Chapter 7',
+            'Chapter 9',
             'Old Selector',
             'Exit']
     chapters = [['Chapter 1'],
@@ -610,7 +648,8 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
                 ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
                 ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4'],
                 ['Chapter 6', 'Chapter 6.1'],
-                ['Chapter 7.2 - First', 'Chapter 7.2 - Second', 'Chapter 7.3']]
+                ['Chapter 7.2 - First', 'Chapter 7.2 - Second', 'Chapter 7.3'],
+                ['Chapter 9.1', 'Chapter 9.2']]
 
 
     def print_menu(stdscr, selected_row_idx, content):
@@ -697,7 +736,8 @@ if __name__ == '__main__':
                         ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
                         ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4'],
                         ['Chapter 6', 'Chapter 6.1'],
-                        ['Chapter 7.2 - First', 'Chapter 7.2 - Second', 'Chapter 7.3']]
+                        ['Chapter 7.2 - First', 'Chapter 7.2 - Second', 'Chapter 7.3'],
+                        ['Chapter 9.1', 'Chapter 9.2']]
             
             def get_position(element):
                 position = 0
