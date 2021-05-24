@@ -1,6 +1,3 @@
-# version 0.1.210331
-# going to do some performance improvement
-# and some uncluttering
 # version 0.11.210331 - did some uncluttering
 
 total_cost = 1_000_000
@@ -9,7 +6,7 @@ target_savings = total_cost * portion_down_payment
 semi_annual_raise = 0.07
 r = 0.04
 
-def bisection (monthly_salary):
+def bisection(monthly_salary):
     rate_min, rate_max, mid = 0, 10000, 5000
     rate_tolerance, savings_tolerance = 1, 100
     search_counter = 0
@@ -31,7 +28,7 @@ def bisection (monthly_salary):
     print(f"Best savings rate: {0.01*mid:.2f}%")
     print(f"Steps in bisection search:​ {search_counter}")
 
-def calculator (mid):
+def calculator(mid):
     local_monthly_salary = monthly_salary
     local_mid = mid * 0.0001
     current_savings, monthly_return, months = (0, )*3
@@ -45,4 +42,4 @@ def calculator (mid):
     return current_savings
 
 monthly_salary = float(input("Enter starting salary: ")) / 12
-bisection (monthly_salary)
+bisection(monthly_salary)

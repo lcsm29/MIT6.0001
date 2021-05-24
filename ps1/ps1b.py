@@ -1,4 +1,4 @@
-def portion_converter (before_conversion): #changed the names of variables to reuse this functions twice
+def portion_converter(before_conversion): #changed the names of variables to reuse this functions twice
     while 1:
         if before_conversion[len(before_conversion)-1] == '%':
             percent_removed = float(before_conversion[0:len(before_conversion)-1])
@@ -14,7 +14,7 @@ def portion_converter (before_conversion): #changed the names of variables to re
         elif percent_removed < 0 or percent_removed > 1:
             before_conversion = input("Let's try this again. Input should be somewhere between 0 and 100%: ")
 
-def calculator ():
+def calculator():
     global current_savings
     global months
     global monthly_salary
@@ -30,7 +30,7 @@ def calculator ():
         if (months%6 == 0):  #while this location doesn't. this location assumes raise happens at month #7, #13, ... while the above location assumes month #6, #12.
             monthly_salary += monthly_salary * semi_annual_raise
 
-def day_calculator (): #it starts off from the previous calculation to reduce the total number of loop executions. it's not working very well, but i'll leave it for now
+def day_calculator(): #it starts off from the previous calculation to reduce the total number of loop executions. it's not working very well, but i'll leave it for now
     global current_savings
     global months
     global days
