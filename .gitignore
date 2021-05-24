@@ -1,7 +1,6 @@
 .idea
 .vs
-.vscode/settings.json
-.vscode/.ropeproject
+.vscode
 .DS_Store
 venv
 
