@@ -1,7 +1,7 @@
 # Problem Set 4B
-# Name: <your name here>
-# Collaborators:
-# Time Spent: x:xx
+# Name: lcsm29
+# Collaborators: None
+# Time Spent: unknown
 
 import string
 
