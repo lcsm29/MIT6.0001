@@ -6,6 +6,7 @@
 # Name          : lcsm29
 # Collaborators : None
 # Time spent    : unknown
+# version 0.11.210526 - problem 1 decluttered
 
 import math
 import random
@@ -56,12 +57,7 @@ def get_frequency_dict(sequence):
     sequence: string or list
     return: dictionary
     """
-
-    # freqs: dictionary (element_type -> int)
-    freq = {}
-    for x in sequence:
-        freq[x] = freq.get(x, 0) + 1
-    return freq
+    return {char: sequence.lower().count(char) for char in set(sequence.lower())}
 
 
 # (end of helper code)
@@ -95,14 +91,8 @@ def get_word_score(word, n):
     n: int >= 0
     returns: int >= 0
     """
-    word = list(str.lower(word))
-    point = []
-    for letter in word:
-        point.append(SCRABBLE_LETTER_VALUES.get(letter))
-    first_component = sum(point)
-    second_component = 7 * len(word) - 3 * (n - len(word))
-    if second_component < 1:
-        second_component = 1
+    first_component = sum([SCRABBLE_LETTER_VALUES.get(c) for c in word.lower()])
+    second_component = max(7 * len(word) - 3 * (n - len(word)), 1)
     return first_component * second_component
 
 
@@ -121,9 +111,8 @@ def display_hand(hand):
 
     hand: dictionary (string -> int)
     """
-    for letter in hand.keys():
-        for i in range(hand[letter]):
-            print(letter, end=' ')
+    for letter, count in hand.items():
+        print((letter + ' ') * count, end='')
     print()
 
 
@@ -144,25 +133,10 @@ def deal_hand(n):
     n: int >= 0
     returns: dictionary (string -> int)
     """
-    hand = {}
-    min_vowels = int(math.ceil(n / 3))
-
-    for i in range(min_vowels):
-        x = random.choice(VOWELS)
-        hand[x] = hand.get(x, 0) + 1
-
-    random_letter = random.choice(list(hand.keys()))
-    if hand[random_letter] > 1:
-        hand[random_letter] -= 1
-    else:
-        hand.pop(random_letter)
-    hand['*'] = 1
-
-    for i in range(min_vowels, n):
-        x = random.choice(CONSONANTS)
-        hand[x] = hand.get(x, 0) + 1
-
-    return hand
+    vow = ''.join([random.choice(VOWELS) for _ in range(math.ceil(n / 3))])
+    asterisk_inserted = vow.replace(random.choice(vow), '*', 1)
+    con = ''.join([random.choice(CONSONANTS) for _ in range(n - len(vow))])
+    return get_frequency_dict(asterisk_inserted + con)
 
 
 #
@@ -186,21 +160,20 @@ def update_hand(hand, word):
     hand: dictionary (string -> int)
     returns: dictionary (string -> int)
     """
-    # needed: dictionary (string -> int), just like hand. it represents the frequency of each alphabet in word(string).
+    # needed: dictionary (string -> int), represents the frequency of each alphabet in word(string).
     needed = {key: word.lower().count(key) for key in word.lower()}
-    # if player has enough letter, subtracting each letters needed from hand_copy and return it
-    hand_copy = hand.copy()
+    updated = hand.copy()
     for letter in needed.keys():
         try:
-            if hand_copy[letter] < needed[letter]:
+            if updated[letter] < needed[letter]:
                 break
             else:
-                hand_copy[letter] -= needed[letter]
-                if hand_copy[letter] == 0:
-                    hand_copy.pop(letter)
+                updated[letter] -= needed[letter]
+                if updated[letter] == 0:
+                    updated.pop(letter)
         except KeyError:
             continue
-    return hand_copy
+    return updated
 
 #
 # Problem #3: Test word validity
@@ -250,8 +223,7 @@ def calculate_handlen(hand):
     hand: dictionary (string-> int)
     returns: integer
     """
-    length = [hand[letter] for letter in hand]
-    return sum(length)
+    return sum(hand.values())
 
 
 def play_hand(hand, word_list):
