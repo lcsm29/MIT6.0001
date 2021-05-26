@@ -1,6 +1,6 @@
 import math
 
-x=float(input("Enter number x:"))
-y=float(input("Enter number y:"))
-print("x**y =", x**y)
-print("log(x) =", math.log(x,2))
+x = float(input("Enter number x: "))
+y = float(input("Enter number y: "))
+print(f"x**y = {x**y}")
+print(f"log(x) = {math.log(x,2)}")
