@@ -6,7 +6,7 @@
 # Name          : lcsm29
 # Collaborators : None
 # Time spent    : unknown
-# version 0.11.210526 - problem 1 decluttered
+# version 0.12.210526 - decluttering mostly done
 
 import math
 import random
@@ -57,7 +57,7 @@ def get_frequency_dict(sequence):
     sequence: string or list
     return: dictionary
     """
-    return {char: sequence.lower().count(char) for char in set(sequence.lower())}
+    return {c: sequence.lower().count(c) for c in set(sequence.lower())}
 
 
 # (end of helper code)
@@ -111,9 +111,7 @@ def display_hand(hand):
 
     hand: dictionary (string -> int)
     """
-    for letter, count in hand.items():
-        print((letter + ' ') * count, end='')
-    print()
+    return ''.join([(c + ' ') * count for c, count in hand.items()])
 
 
 #
@@ -160,17 +158,16 @@ def update_hand(hand, word):
     hand: dictionary (string -> int)
     returns: dictionary (string -> int)
     """
-    # needed: dictionary (string -> int), represents the frequency of each alphabet in word(string).
-    needed = {key: word.lower().count(key) for key in word.lower()}
+    needed = get_frequency_dict(word)
     updated = hand.copy()
-    for letter in needed.keys():
+    for c in needed.keys():
         try:
-            if updated[letter] < needed[letter]:
+            if updated[c] < needed[c]:
                 break
+            elif updated[c] == needed[c]:
+                updated.pop(c)
             else:
-                updated[letter] -= needed[letter]
-                if updated[letter] == 0:
-                    updated.pop(letter)
+                updated[c] -= needed[c]
         except KeyError:
             continue
     return updated
@@ -189,28 +186,19 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     returns: boolean
     """
-    char_count = {char: word.lower().count(char) for char in word.lower()}
-    for char in char_count.keys():
-        if char not in hand or char_count[char] > hand[char]:
+    needed = get_frequency_dict(word)
+    for c in needed.keys():
+        if c not in hand or needed[c] > hand[c]:
             return False
-
     if '*' in word:
-        for letter in VOWELS:
-            temp_word = word
-            temp_word = temp_word.replace('*', letter)
-            temp_hand = hand.copy()
-            temp_hand.pop('*')
-            temp_hand[letter] = temp_hand.get(letter, 0) + 1
-            if temp_word in word_list and update_hand(temp_hand, temp_word) is not temp_hand:
+        for vowel in VOWELS:
+            tmp_word = word.replace('*', vowel)
+            tmp_hand = hand.copy()
+            tmp_hand[vowel] = tmp_hand.pop('*')
+            if tmp_word in word_list and update_hand(tmp_hand, tmp_word) != tmp_hand:
                 return True
     else:
-        if word.lower() not in word_list:
-            return False
-        else:
-            if update_hand(hand, word) == hand:
-                return False
-            else:
-                return True
+        return False if word.lower() not in word_list or update_hand(hand, word) == hand else True
 
 
 #
@@ -253,23 +241,22 @@ def play_hand(hand, word_list):
     # As long as there are still letters left in the hand:
     while hand is not {}:
         # Display the hand
-        print(f"\nCurrent hand: ", end='')
-        display_hand(hand)
+        print(f"\nCurrent hand: {display_hand(hand)}")        
         # Ask user for input
-        input_ = input("Enter word, or ""!!"" to indicate that you are finished: ")
+        word = input("Enter word, or ""!!"" to indicate that you are finished: ")
         # If the input is two exclamation points:
-        if input_ == "!!":
+        if word == "!!":
             # End the game (break out of the loop)
             break
         # Otherwise (the input is not two exclamation points):
         else:
             # If the word is valid:
-            if is_valid_word(input_, hand, word_list):
+            if is_valid_word(word, hand, word_list):
                 # Tell the user how many points the word earned,
+                hand = update_hand(hand, word)
+                print(f"{word} earned {get_word_score(word, len(word))} points.", end=' ')
                 # and the updated total score
-                hand = update_hand(hand, input_)
-                print(f"{input_} earned {get_word_score(input_, len(input_))} points.", end=' ')
-                total_score += get_word_score(input_, len(input_))
+                total_score += get_word_score(word, len(word))
                 print(f"Total: {total_score} points")
             # Otherwise (the word is not valid):
             else:
@@ -313,14 +300,12 @@ def substitute_hand(hand, letter):
     letter: string
     returns: dictionary (string -> int)
     """
-    hand_copy = hand.copy()
-    num_removed = hand_copy[letter]
-    hand_copy.pop(letter)
+    substituted = hand.copy()
     while True:
-        candidate = random.choice(string.ascii_lowercase)
-        if candidate not in hand_copy.keys():
-            hand_copy[candidate] = num_removed
-            return hand_copy
+        cand = random.choice(string.ascii_lowercase)
+        if cand not in substituted.keys():
+            substituted[cand] = substituted.pop(letter)
+            return substituted
 
 
 def play_game(word_list):
@@ -354,24 +339,23 @@ def play_game(word_list):
     word_list: list of lowercase strings
     """
     total_score = 0
-    remaining_substitution = 1
+    remaining_sub = 1
 
-    round_ = int(input("Enter total number of hands: "))
-    while round_:
+    remaining_round = int(input("Enter total number of hands: "))
+    while remaining_round:
         hand = deal_hand(HAND_SIZE)
-        print(f"Current hand: ", end='')
-        display_hand(hand)
+        print(f"\nCurrent hand: {display_hand(hand)}")
         score = 0
-        round_ -= 1
+        remaining_round -= 1
         replay = 'yes'
         while replay.lower() == 'yes':
             score = 0
-            if remaining_substitution:
-                substitute = input("Would you like to substitute a letter? ")
-                if substitute == 'yes':
+            if remaining_sub:
+                sub = input("Would you like to substitute a letter? ")
+                if sub.lower().startswith('y'):
                     letter = input("Which letter would you like to replace: ")
                     hand = substitute_hand(hand, letter)
-                    remaining_substitution -= 1
+                    remaining_sub -= 1
             score += play_hand(hand, word_list)
             replay = input("Would you like to replay the hand? ")
         total_score += score
