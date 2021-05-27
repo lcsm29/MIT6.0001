@@ -100,7 +100,7 @@ def hangman(secret_word):
 
     def input_validator(user_input):
         nonlocal letters_guessed
-        if len(user_input) == 1 and user_input.encode().isalpha() == True:
+        if len(user_input) == 1 and user_input.encode().isalpha():
             if user_input.isupper():
                 user_input = user_input.lower()
             if user_input not in letters_guessed:
@@ -239,8 +239,8 @@ def hangman_with_hints(secret_word):
 
     def input_validator(user_input):
         nonlocal letters_guessed
-        if len(user_input) == 1 and user_input.encode().isalpha() == True:
-            if user_input.isupper() == True:
+        if len(user_input) == 1 and user_input.encode().isalpha():
+            if user_input.isupper():
                 user_input = user_input.lower()
             if user_input not in letters_guessed:
                 letters_guessed += user_input
