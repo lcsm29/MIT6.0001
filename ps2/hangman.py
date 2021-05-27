@@ -2,7 +2,7 @@
 # Name: lcsm29
 # Collaborators: None
 # Time spent: unknown
-# ver 0.11.210525 - cleaned it up a bit
+# ver 0.12.210528 - some docstring clean up
 
 # Hangman Game
 # -----------------------------------
@@ -18,11 +18,8 @@ WORDLIST_FILENAME = "words.txt"
 
 
 def load_words():
-    """
-    Returns a list of valid words. Words are strings of lowercase letters.
-
-    Depending on the size of the word list, this function may
-    take a while to finish.
+    """ Returns a list of valid words. Words are strings of lowercase letters
+    Depending on the size of the word list, this function may take a while
     """
     print("Loading word list from file...")
     # inFile: file
@@ -36,9 +33,7 @@ def load_words():
 
 
 def choose_word(wordlist):
-    """
-    wordlist (list): list of words (strings)
-
+    """ wordlist (list): list of words (strings)
     Returns a word from wordlist at random
     """
     return random.choice(wordlist)
@@ -51,26 +46,24 @@ wordlist = load_words()
 
 
 def is_word_guessed(secret_word, letters_guessed):
-    '''
-    secret_word: string, the word the user is guessing; assumes all letters are
-      lowercase
-    letters_guessed: list (of letters), which letters have been guessed so far;
-      assumes that all letters are lowercase
-    returns: boolean, True if all the letters of secret_word are in letters_guessed;
-      False otherwise
-    '''
+    """ secret_word: string, the word the user is guessing
+        assumes all letters are lowercase
+    letters_guessed: list (of letters), which letters have been guessed so far
+        assumes that all letters are lowercase
+    Returns: boolean, True if all the letters of secret_word
+        are in letters_guessed; False otherwise
+    """
     for char in secret_word:
         if char not in letters_guessed:
             return False
     return True
 
 def get_guessed_word(secret_word, letters_guessed):
-    '''
-    secret_word: string, the word the user is guessing
+    """ secret_word: string, the word the user is guessing
     letters_guessed: list (of letters), which letters have been guessed so far
-    returns: string, comprised of letters, underscores (_), and spaces that represents
-      which letters in secret_word have been guessed so far.
-    '''
+    Returns: string, comprised of letters, underscores (_), and spaces
+        that represents which letters in secret_word have been guessed so far
+    """
     current_status = '_'*(len(secret_word))
     counter = 0
     for char in secret_word:
@@ -81,11 +74,11 @@ def get_guessed_word(secret_word, letters_guessed):
 
 
 def get_available_letters(letters_guessed):
-    '''
-    letters_guessed: list (of letters), which letters have been guessed so far
-    returns: string (of letters), comprised of letters that represents which letters have not
-      yet been guessed.
-    '''
+    """ letters_guessed: list (of letters), which letters have been
+        guessed so far
+    Returns: string (of letters), comprised of letters that represents
+        which letters have not yet been guessed.
+    """
     if letters_guessed == '':
         return string.ascii_lowercase
     available_letters = ''
@@ -96,30 +89,21 @@ def get_available_letters(letters_guessed):
 
 
 def hangman(secret_word):
-    '''
-    secret_word: string, the secret word to guess.
-
+    """ secret_word: string, the secret word to guess.
     Starts up an interactive game of Hangman.
-
     * At the start of the game, let the user know how many
       letters the secret_word contains and how many guesses s/he starts with.
-
     * The user should start with 6 guesses
-
     * Before each round, you should display to the user how many guesses
       s/he has left and the letters that the user has not yet guessed.
-
     * Ask the user to supply one guess per round. Remember to make
       sure that the user puts in a letter!
-
     * The user should receive feedback immediately after each guess
       about whether their guess appears in the computer's word.
-
     * After each guess, you should display to the user the
       partially guessed word so far.
-
     Follows the other limitations detailed in the problem write-up.
-    '''
+    """
     letters_guessed = ''
     guesses_remaining, warnings_remaining = 6, 3
     user_input = ''
@@ -204,20 +188,19 @@ def hangman(secret_word):
 
 # When you've completed your hangman function, scroll down to the bottom
 # of the file and uncomment the first two lines to test
-#(hint: you might want to pick your own
+# (hint: you might want to pick your own
 # secret_word while you're doing your own testing)
 # -----------------------------------
 
 
 def match_with_gaps(my_word, other_word):
-    '''
-    my_word: string with _ characters, current guess of secret word
+    """ my_word: string with _ characters, current guess of secret word
     other_word: string, regular English word
-    returns: boolean, True if all the actual letters of my_word match the
+    Returns: boolean, True if all the actual letters of my_word match the
         corresponding letters of other_word, or the letter is the special symbol
         _ , and my_word and other_word are of the same length;
         False otherwise:
-    '''
+    """
     counter = 0
     if len(my_word) == len(other_word):
         for char in my_word:
@@ -230,15 +213,13 @@ def match_with_gaps(my_word, other_word):
 
 
 def show_possible_matches(my_word):
-    '''
-    my_word: string with _ characters, current guess of secret word
-    returns: nothing, but should print out every word in wordlist that matches my_word
-             Keep in mind that in hangman when a letter is guessed, all the positions
-             at which that letter occurs in the secret word are revealed.
-             Therefore, the hidden letter(_ ) cannot be one of the letters in the word
-             that has already been revealed.
-
-    '''
+    """ my_word: string with _ characters, current guess of secret word
+    Returns: nothing, but should print out every word in wordlist that
+        matches my_word. Keep in mind that in hangman when a letter is
+        guessed, all the positions at which that letter occurs in
+        the secret word are revealed. Therefore, the hidden letter(_) cannot
+        be one of the letters in the word that has already been revealed.
+    """
     possible_matches = ''
     for counter in range(len(wordlist)):
         if match_with_gaps(my_word, wordlist[counter]) == True:
@@ -250,32 +231,23 @@ def show_possible_matches(my_word):
 
 
 def hangman_with_hints(secret_word):
-    '''
-    secret_word: string, the secret word to guess.
-
+    """ secret_word: string, the secret word to guess.
     Starts up an interactive game of Hangman.
-
-    * At the start of the game, let the user know how many
-      letters the secret_word contains and how many guesses s/he starts with.
-
+    * At the start of the game, let the user know how many letters
+      the secret_word contains and how many guesses s/he starts with.
     * The user should start with 6 guesses
-
     * Before each round, you should display to the user how many guesses
       s/he has left and the letters that the user has not yet guessed.
-
     * Ask the user to supply one guess per round. Make sure to check that the user guesses a letter
-
     * The user should receive feedback immediately after each guess
       about whether their guess appears in the computer's word.
-
     * After each guess, you should display to the user the
       partially guessed word so far.
-
     * If the guess is the symbol *, print out all words in wordlist that
       matches the current guessed word.
 
     Follows the other limitations detailed in the problem write-up.
-    '''
+    """
     letters_guessed = ''
     guesses_remaining, warnings_remaining = 6, 3
     user_input = ''
@@ -320,7 +292,7 @@ def hangman_with_hints(secret_word):
             print(
                 f"----------\n"
                 f"Congratulations, you won!\n"
-                f"Your total score for this game is:  {len(set(secret_word)) * guesses_remaining}"
+                f"Your total score for this game is: {len(set(secret_word)) * guesses_remaining}"
             )
             return
         # printing required statements and take user_input

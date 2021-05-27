@@ -6,7 +6,7 @@
 # Name          : lcsm29
 # Collaborators : None
 # Time spent    : unknown
-# version 0.12.210526 - decluttering mostly done
+# version 0.13.210528 - some docstring clean up
 
 import math
 import random
@@ -30,13 +30,9 @@ WORDLIST_FILENAME = "words.txt"
 
 
 def load_words():
+    """ Returns a list of valid words. Words are strings of lowercase letters
+    Depending on the size of the word list, this function may take a while
     """
-    Returns a list of valid words. Words are strings of lowercase letters.
-
-    Depending on the size of the word list, this function may
-    take a while to finish.
-    """
-
     print("Loading word list from file...")
     # inFile: file
     inFile = open(WORDLIST_FILENAME, 'r')
@@ -49,8 +45,7 @@ def load_words():
 
 
 def get_frequency_dict(sequence):
-    """
-    Returns a dictionary where the keys are elements of the sequence
+    """ Returns a dictionary where the keys are elements of the sequence
     and the values are integer counts, for the number of times that
     an element is repeated in the sequence.
 
@@ -67,42 +62,37 @@ def get_frequency_dict(sequence):
 # Problem #1: Scoring a word
 #
 def get_word_score(word, n):
-    """
-    Returns the score for a word. Assumes the word is a
-    valid word.
-
+    """ Returns the score for a word. Assumes the word is a valid word.
     You may assume that the input word is always either a string of letters,
     or the empty string "". You may not assume that the string will only contain
     lowercase letters, so you will have to handle uppercase and mixed case strings
     appropriately.
 
-	The score for a word is the product of two components:
+    The score for a word is the product of two components:
 
-	The first component is the sum of the points for letters in the word.
-	The second component is the larger of:
+    The first component is the sum of the points for letters in the word.
+    The second component is the larger of:
             1, or
             7*wordlen - 3*(n-wordlen), where wordlen is the length of the word
             and n is the hand length when the word was played
 
-	Letters are scored as in Scrabble; A is worth 1, B is
-	worth 3, C is worth 3, D is worth 2, E is worth 1, and so on.
+    Letters are scored as in Scrabble; A is worth 1, B is
+    worth 3, C is worth 3, D is worth 2, E is worth 1, and so on.
 
     word: string
     n: int >= 0
     returns: int >= 0
     """
-    first_component = sum([SCRABBLE_LETTER_VALUES.get(c) for c in word.lower()])
-    second_component = max(7 * len(word) - 3 * (n - len(word)), 1)
-    return first_component * second_component
+    first_comp = sum([SCRABBLE_LETTER_VALUES.get(c) for c in word.lower()])
+    second_comp = max(7 * len(word) - 3 * (n - len(word)), 1)
+    return first_comp * second_comp
 
 
 #
 # Make sure you understand how this function works and what it does!
 #
 def display_hand(hand):
-    """
-    Displays the letters currently in the hand.
-
+    """ Displays the letters currently in the hand.
     For example:
        display_hand({'a':1, 'x':2, 'l':3, 'e':1})
     Should print out something like:
@@ -119,8 +109,7 @@ def display_hand(hand):
 # You will need to modify this for Problem #4.
 #
 def deal_hand(n):
-    """
-    Returns a random hand containing n lowercase letters.
+    """ Returns a random hand containing n lowercase letters.
     ceil(n/3) letters in the hand should be VOWELS (note,
     ceil(n/3) means the smallest integer not less than n/3).
 
@@ -141,8 +130,7 @@ def deal_hand(n):
 # Problem #2: Update a hand by removing letters
 #
 def update_hand(hand, word):
-    """
-    Does NOT assume that hand contains every letter in word at least as
+    """ Does NOT assume that hand contains every letter in word at least as
     many times as the letter appears in word. Letters in word that don't
     appear in hand should be ignored. Letters that appear in word more times
     than in hand should never result in a negative count; instead, set the
@@ -172,12 +160,12 @@ def update_hand(hand, word):
             continue
     return updated
 
+
 #
 # Problem #3: Test word validity
 #
 def is_valid_word(word, hand, word_list):
-    """
-    Returns True if word is in the word_list and is entirely
+    """ Returns True if word is in the word_list and is entirely
     composed of letters in the hand. Otherwise, returns False.
     Does not mutate hand or word_list.
 
@@ -192,21 +180,19 @@ def is_valid_word(word, hand, word_list):
             return False
     if '*' in word:
         for vowel in VOWELS:
-            tmp_word = word.replace('*', vowel)
-            tmp_hand = hand.copy()
-            tmp_hand[vowel] = tmp_hand.pop('*')
-            if tmp_word in word_list and update_hand(tmp_hand, tmp_word) != tmp_hand:
+            t_word, t_hand = word.replace('*', vowel), hand.copy()
+            t_hand[vowel] = t_hand.pop('*')
+            if t_word in word_list and update_hand(t_hand, t_word) != t_hand:
                 return True
     else:
-        return False if word.lower() not in word_list or update_hand(hand, word) == hand else True
+        return False if word.lower() not in word_list else True
 
 
 #
 # Problem #5: Playing a hand
 #
 def calculate_handlen(hand):
-    """
-    Returns the length (number of letters) in the current hand.
+    """ Returns the length (number of letters) in the current hand.
 
     hand: dictionary (string-> int)
     returns: integer
@@ -215,9 +201,7 @@ def calculate_handlen(hand):
 
 
 def play_hand(hand, word_list):
-    """
-    Allows the user to play the given hand, as follows:
-
+    """ Allows the user to play the given hand, as follows:
     * The hand is displayed.
     * The user may input a word.
     * When any word is entered (valid or invalid), it uses up letters
@@ -279,8 +263,7 @@ def play_hand(hand, word_list):
 # procedure you will use to substitute a letter in a hand
 #
 def substitute_hand(hand, letter):
-    """
-    Allow the user to replace all copies of one letter in the hand (chosen by user)
+    """ Allow the user to replace all copies of one letter in the hand (chosen by user)
     with a new letter chosen from the VOWELS and CONSONANTS at random. The new letter
     should be different from user's choice, and should not be any of the letters
     already in the hand.
@@ -309,20 +292,15 @@ def substitute_hand(hand, letter):
 
 
 def play_game(word_list):
-    """
-    Allow the user to play a series of hands
-
+    """ Allow the user to play a series of hands
     * Asks the user to input a total number of hands
-
     * Accumulates the score for each hand into a total score for the
       entire series
-
     * For each hand, before playing, ask the user if they want to substitute
       one letter for another. If the user inputs 'yes', prompt them for their
       desired letter. This can only be done once during the game. Once the
       substitue option is used, the user should not be asked if they want to
       substitute letters in the future.
-
     * For each hand, ask the user if they would like to replay the hand.
       If the user inputs 'yes', they will replay the hand and keep
       the better of the two scores for that hand.  This can only be done once
@@ -330,10 +308,8 @@ def play_game(word_list):
       be asked if they want to replay future hands. Replaying the hand does
       not count as one of the total number of hands the user initially
       wanted to play.
-
             * Note: if you replay a hand, you do not get the option to substitute
                     a letter - you must play whatever hand you just had.
-
     * Returns the total score for the series of hands
 
     word_list: list of lowercase strings

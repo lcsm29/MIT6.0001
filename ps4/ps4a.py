@@ -2,10 +2,10 @@
 # Name: lcsm29
 # Collaborators: None
 # Time Spent: unknown
+# version 0.11.210528 - cleaned it up a bit
 
 def get_permutations(sequence):
-    '''
-    Enumerate all permutations of a given string
+    """ Enumerate all permutations of a given string
 
     sequence (string): an arbitrary string to permute. Assume that it is a
     non-empty string.  
@@ -21,14 +21,14 @@ def get_permutations(sequence):
 
     Note: depending on your implementation, you may return the permutations in
     a different order than what is listed here.
-    '''
+    """
     if len(sequence) == 1:
         return [sequence]
     else:
         permutations = []
-        for index, fixed_char in enumerate(sequence):
-            for partial_perm in get_permutations(sequence[:index] + sequence[index + 1:]):
-                permutations.append(fixed_char + partial_perm)
+        for i, fixed in enumerate(sequence):
+            for perm in get_permutations(sequence[:i] + sequence[i + 1:]):
+                permutations.append(fixed + perm)
         return list(dict.fromkeys(permutations))
 
 
