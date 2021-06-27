@@ -11,7 +11,7 @@
 
 
 # chapter 1 getting started
-def c1():
+def c01():
     import time
     import random
 
@@ -55,7 +55,7 @@ def c1():
 
 
 # chapter 2.3 branching problems - print the largest odd among x,y,z
-def c23():
+def c023():
     largest_odd, x, y, z = 0, 1, 2, 3
 
     if x % 2 and y % 2 and z % 2 == 0:
@@ -71,13 +71,13 @@ def c23():
 
 
 # chapter 2.4.1 input - ask users to enter their birthday in the form mm/dd/yyyy and then print yyyy
-def c241():
+def c0241():
     birthday = input("Enter your birthday in the form mm/dd/yyyy: ")
     print(f"Your were born in the year {birthday[6:10]}")
 
 
 # chapter 2.5 while loops - complete the code with a while loop
-def c25():
+def c025():
     num_x = int(input(' How many times should I print the letter X? '))
     to_print = 'X'
     while num_x:
@@ -86,7 +86,7 @@ def c25():
 
 
 # chapter 2.5 while loops - print the largest odd among the 10 user input integers
-def c25a():
+def c025a():
     def ordinal_num(n):
         n = int(n) + 1
         suffix = ['th', 'st', 'nd', 'rd', 'th'][min(n % 10, 4)]
@@ -108,7 +108,7 @@ def c25a():
 
 
 # chapter 2.6 for loops and range - sum of prime numbers >2 and <1000
-def c26():
+def c026():
     total = 2
     for odd in range(3, 1000, 2):
         for n in range(2, odd):
@@ -120,7 +120,7 @@ def c26():
 
 
 # chapter 3.1 exhaustive enumeration - change the code so that it returns the largest rather than the smallest divisor
-def c31():
+def c031():
     x = int(input('Enter an integer greater than 2: '))
     smallest_divisor = None
     for guess in range(2, x):
@@ -135,7 +135,7 @@ def c31():
 
 
 # chapter 3.1 exhaustive enumeration - take an integer input and print root and pwr(1<pwr<6) (root**pwr == user_input)
-def c31a():
+def c031a():
     import math
     user_input = int(input("Enter an integer: "))
     found = None
@@ -152,7 +152,7 @@ def c31a():
 
 # chapter 3.1 exhaustive enumeration - print the sum of the prime numbers >2 and <1000.
 # the following is okay for 1,000 or 10,000 but getting slow for 100,000
-def c31b():
+def c031b():
     total = 2
     for odd in range(3, 1000, 2):
         for n in range(2, odd):
@@ -164,7 +164,7 @@ def c31b():
 
 
 # chapter 3.2 approximate solutions and bisection search - modify Figure 3-5 to find both negative and positive sqrt
-def c32():
+def c032():
     x = int(input("Enter an integer greater than 2: "))
     neg = False
     if x < 0:
@@ -189,7 +189,7 @@ def c32():
 
 
 # chapter 3.2 approximate solutions and bisection search - egg drop, 102 stories, under 7 searches
-def c32a():
+def c032a():
     max_safe_floor = int(input("Egg would survive the drop, up to floor # (1-102): "))
     epsilon = 0.5
     num_guesses, low, high = 0, 1, 102
@@ -207,7 +207,7 @@ def c32a():
 
 
 # chapter 3.3 a few words about using floats - decimal equivalent of the binary number 10011
-def c33():
+def c033():
     binary = input("Enter binary number: ")
     decimal = 0
     for n in range(len(binary)):
@@ -216,7 +216,7 @@ def c33():
 
 
 # chapter 3.4 Newton-Raphson - add some code to keep track of # of iterations and compare the efficiency to bisection
-def c34():
+def c034():
     from time import perf_counter_ns
     # Newton-Raphson
     k = 123456789
@@ -256,7 +256,7 @@ def c34():
 
 
 # chapter 4.1.1 function definitions - modify the Fig. 4-3 to print sum of sqrt(25), 3sqrt(-8), 4sqrt(16). 0.001 epsilon
-def c411():
+def c0411():
     def find_root(x, power, epsilon):
         # Find interval containing answer
         if x < 0 and power % 2 == 0:
@@ -277,7 +277,7 @@ def c411():
 
 # chapter 4.1.1 function definitions - write a function as_in.
 # take two string args and return True if either string occurs anywhere in the other.
-def c411a(str1, str2):
+def c0411a(str1, str2):
     def as_in():
         if str1 in str2 or str2 in str1:
             return True
@@ -287,7 +287,7 @@ def c411a(str1, str2):
 
 
 # chapter 4.1.1 function definitions - write a function to test is_in
-def c411b():
+def c0411b():
     def as_in_tester(first_str, second_str):
         result_as_in = c411a(first_str, second_str)
         matched = False
@@ -337,7 +337,7 @@ def c411b():
 
 # chapter 4.1.2 keyword arguments and default values - def mult, either accepts 1 int argument and print that argument
 #                                                    or accepts 2 int arguments and prints the product of the two args
-def c412():
+def c0412():
     def mult(*numbers):
         if len(numbers) == 1:
             print(numbers[0])
@@ -369,7 +369,7 @@ def c412():
 # Assumes x and epsilon int or float, base an int,
 #         x > 1, epsilon > 0 & power > = 1
 # Returns float y such that base**y is within epsilon of x.
-def c42():
+def c042():
     def log(x, base, epsilon):
         low = 0
         high = max(1, x)
@@ -429,7 +429,7 @@ def c42():
 
 
 # chapter 5.2 ranges and iterables - expression that evaluates to the mean of a tuple of numbers, using function sum
-def c52():
+def c052():
     import random
     tuple = ()
     for num in range(10):
@@ -439,7 +439,7 @@ def c52():
 
 
 # chapter 5.3 lists and mutability - what does the following code print?
-def c53():
+def c053():
     L = [1, 2, 3]
     L.append(L)
     print(L)
@@ -448,14 +448,14 @@ def c53():
 
 
 # chapter 5.3.2 list comprehension - write a list comprehension that generates all non-primes between 2 and 100
-def c532():
+def c0532():
     nonprimes = [x for x in range(2, 101) if not all(x % y != 0 for y in range(2, x))]
     print(f"method 1\n"
           f"non-primes {nonprimes}\n")
 
 
 # chapter 5.4 higher-order operations on lists - implement a function satisfying the specs
-def c54():
+def c054():
     def f(L1, L2):
         """
         L1, L2 lists of same length of numbers
@@ -473,7 +473,7 @@ def c54():
 
 
 # chapter 6 recursion and global variables - write a recursive function that computes the harmonic sum of an integer (n > 0)
-def c6():
+def c06():
     integer = 0
     while integer <= 0:
         try:
@@ -507,7 +507,7 @@ def test_fib(n):
     for i in range(n+1):
         print('fib of', i, '=', fib(i))
 '''
-def c61():
+def c061():
     counter = 0
     def fib(n):
         """Assumes n int >= 0
@@ -522,7 +522,7 @@ def c61():
 
 
 # Chapter 7.2 using predefined packages - write a function that meets the specification
-def c72():
+def c072():
     def shopping_days(year):
         """year a number >= 1941
            returns the number of days between U.S. Thanksgiving and Christmas in year"""
@@ -540,7 +540,7 @@ def c72():
 
 
 # Chapter 7.2 using predefined packages - calculate shopping days for Canadian Thanksgiving (second Monday on Oct, since 1958)
-def c72a():
+def c072a():
     def shopping_days(year):
         return 24 + 30 + 31 - find_thanksgiving(year)
     def find_thanksgiving(year):
@@ -556,7 +556,7 @@ def c72a():
 
 
 # Chapter 7.3 files - store the first 10 Fibonnaci sequence to a file fib_file (each number on a separate line), and print the content of file
-def c73():
+def c073():
     def fib(num, file_name):
         known_fibs = [0, 1]
         for _ in range(num):
@@ -572,7 +572,7 @@ def c73():
             print(line, end='')
 
 # Chapter 9.1 handling exceptions - implement sum_digits() that meets the specs with try-except
-def c91():
+def c091():
     def sum_digits(s):
         """ Assumes s is a string
         Returns the sum of the decimal digits in s
@@ -588,7 +588,7 @@ def c91():
 
 
 # Chapter 9.2 exceptions as a control flow mechanism - implement find_an_eval() that satisfies the spec
-def c92():
+def c092():
     def find_an_even(L):
         """ Assumes L is a list of integers
         Returns the first even number in L
@@ -609,49 +609,213 @@ def c92():
             break
 
 
+# Chapter 10.1 abstract data types and classes - Add a method union() satisfying the specification
+class Int_set(object):
+    """ An Int_set is a set of integers """
+    #Information about the implementation (not the abstraction):
+      #Value of a set is represented by a list of ints, self._vals.
+      #Each int in a set occurs in self._vals exactly once.
+
+    def __init__(self):
+        """ Create an empty set of integers """
+        self._vals = []
+
+    def insert(self, e):
+        """ Assumes e is an integer and inserts e into self """
+        if e not in self._vals:
+            self._vals.append(e)
+
+    def member(self, e):
+        """ Assumes e is an integer
+            Returns True if e is in self, and False otherwise """
+        return e in self._vals
+
+    def remove(self, e):
+        """ Assumes e is an integer and removes e from self
+            Raises ValueError if e is not in self"""
+        try:
+            self._vals.remove(e)
+        except:
+            raise ValueError(str(e) + ' not found')
+
+    def get_members(self):
+        """ Returns a list containing the elements of self._
+            Nothing can be assumed about the order of the elements """
+        return self._vals[:]
+    
+    def union(self, other):
+        """ other is an Int_set
+            mutates self so that it contains exactly the elemnts in self
+            plus the elements in other. """
+        for element in other.get_members():
+            self._vals.append(element)
+
+    def __str__(self):
+        """ Returns a string representation of self """
+        if self._vals == []:
+            return '{}'
+        self._vals.sort()
+        result = ''
+        for e in self._vals:
+            result = result + str(e) + ','
+        return f'{{{result[:-1]}}}'
+
+
+def c101():
+    def take_input(option):
+        while True:
+            nums = input(f'Enter a set of integers for {option} Int_set, separated by blank space (e.g. 2 7 4): ')
+            try:
+                [int(n) for n in nums.split()]
+                break
+            except:
+                print('Invalid input. Only numbers (and space/tab/enter) are allowed. Try again.')
+        return nums
+    union_original, union_other = Int_set(), Int_set()
+    for n in take_input('original').split(): union_original.insert(int(n))
+    for n in take_input('other').split(): union_other.insert(int(n))
+    print(f'self._vals (original Int_set) before union: {union_original.get_members()}')
+    print(f'self._vals (other Int_set): {union_other.get_members()}')
+    union_original.union(union_other)
+    print(f'self._vals (original Int_set) after union: {union_original.get_members()}')
+
+
+# 10.2 inheritance - Implement a subclass of Person as per specs
+import datetime
+from os import name
+class Person(object):
+    
+    def __init__(self, name):
+        """ Assumes name a string. Create a person """
+        self._name = name
+        try:
+            last_blank = name.rindex(' ')
+            self._last_name = name[last_blank+1:]
+        except:
+            self._last_name = name
+        self.birthday = None
+        
+    def get_name(self):
+        """Returns self's full name"""
+        return self._name
+    
+    def get_last_name(self):
+        """Returns self's last name"""
+        return self._last_name
+    
+    def set_birthday(self, birthdate):
+        """Assumes birthdate is of type datetime.date
+           Sets self's birthday to birthdate"""
+        self._birthday = birthdate
+        
+    def get_age(self):
+        """Returns self's current age in days"""
+        if self._birthday == None:
+            raise ValueError
+        return (datetime.date.today() - self._birthday).days
+    
+    def __lt__(self, other):
+        """Assume other a Person
+           Returns True if self precedes other in alphabetical
+           order, and False otherwise. Comparison is based on last
+           names, but if these are the same full names are
+           compared."""
+        if self._last_name == other._last_name:
+            return self._name < other._name
+        return self._last_name < other._last_name
+    
+    def __str__(self):
+        """Returns self's name"""
+        return self._name
+
+class Politician(Person):
+    """ A politician is a person that can belong to a political party """
+    
+    def __init__(self, name, party = None):
+        """ name and party are strings """
+        Person.__init__(self, name)
+        self._party = party
+    
+    def get_party(self):
+        """ returns the party to which self belongs """
+        return self._party
+    
+    def might_agree(self, other):
+        """ returns True if self and other belong to the same party
+            or at least one of then does not belong to a party """
+        return self._party == other.get_party()
+
+
+def c102():
+    def take_input(option):
+        name, party = input(
+            f'Enter a name and party ({option}), '
+            f'separated by comma (e.g. Person, Party): ').split(',')
+        return name, party
+    original, other = take_input('original'), take_input('other')
+    ori = Politician(original[0], original[1].replace(' ', ''))
+    oth = Politician(other[0], other[1].replace(' ', ''))
+    print(f'Original Name: {ori.get_name()}, Original Party: {ori.get_party()}\n'
+          f'Other Name: {oth.get_name()}, Other Party: {oth.get_party()}\n'
+          f'might_agree(): {ori.might_agree(oth)}')
+
+
 # old chapter caller
 def old_chapter_selector():
-    chapter_list = [chapter for chapter in globals().keys() if 'c' in chapter and len(chapter) < 7]
+    chapter_list = [chapter for chapter in globals().keys() if chapter.startswith('c') and len(chapter) < 7]
     chapter_call = ''
     while chapter_call not in chapter_list and chapter_call != 'l':
         chapter_call = input("Chapter Selector\n-------------------------------------------\n"
-                            "First exercise on Chapter 2.3: c23\n"
-                            "Third exercise on Chapter 4.1.1: c411b\n"
+                            "First exercise on Chapter 10.2: c102\n"
+                            "Third exercise on Chapter 4.1.1: c0411b\n"
                             "type 'l' to see the chapter list\n-------------------------------------------\n"
                             "Enter the chapter name: ")
         if chapter_call == 'l':
             chapter_call = ''
-            print('A list of finger exercises:')
-            for chapter in chapter_list:
-                print(chapter)
+            print('\nA list of finger exercises: ', end='')
+            for i, chapter in enumerate(chapter_list):
+                if not i == len(chapter_list) - 2:
+                    print(f'{chapter}, ' if not chapter[1].isalpha() else '', end='')
+                else:
+                    print(f'{chapter}' if not chapter[1].isalpha() else '')
     if chapter_call in globals() and callable(globals()[chapter_call]):
         globals()[chapter_call]()
     else:
         print("No such function exists")
 
 
-def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
+def get_menu():
     menu = ['Home', 
-            'Chapter 1', 
-            'Chapter 2', 
-            'Chapter 3', 
-            'Chapter 4', 
-            'Chapter 5', 
-            'Chapter 6',
-            'Chapter 7',
-            'Chapter 9',
-            'Old Selector',
-            'Exit']
+        'Chapter 1', 
+        'Chapter 2', 
+        'Chapter 3', 
+        'Chapter 4', 
+        'Chapter 5', 
+        'Chapter 6',
+        'Chapter 7',
+        'Chapter 9',
+        'Chapter 10',
+        'Old Selector',
+        'Exit'
+    ]
+    return menu
+
+
+def get_chapters():
     chapters = [['Chapter 1'],
-                ['Chapter 2.3', 'Chapter 2.4.1', 'Chapter 2.5 - First', 'Chapter 2.5 - Second', 'Chapter 2.6'],
-                ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
-                ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
-                ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4'],
-                ['Chapter 6', 'Chapter 6.1'],
-                ['Chapter 7.2 - First', 'Chapter 7.2 - Second', 'Chapter 7.3'],
-                ['Chapter 9.1', 'Chapter 9.2']]
+        ['Chapter 2.3', 'Chapter 2.4.1', 'Chapter 2.5 - First', 'Chapter 2.5 - Second', 'Chapter 2.6'],
+        ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
+        ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
+        ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4'],
+        ['Chapter 6', 'Chapter 6.1'],
+        ['Chapter 7.2 - First', 'Chapter 7.2 - Second', 'Chapter 7.3'],
+        ['Chapter 9.1', 'Chapter 9.2'],
+        ['Chapter 10.1', 'Chapter 10.2'],
+    ]
+    return chapters
 
 
+def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
     def print_menu(stdscr, selected_row_idx, content):
         stdscr.clear()
         height, width = stdscr.getmaxyx()
@@ -666,7 +830,6 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
                 stdscr.addstr(y, x, row)
         stdscr.refresh()
 
-
     def print_center(stdscr, text):
         stdscr.clear()
         height, width = stdscr.getmaxyx()
@@ -675,29 +838,28 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
         stdscr.addstr(y, x, text)
         stdscr.refresh()
 
-
     def selector(stdscr):
         curses.curs_set(0)  # turn off cursor blinking
         curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)  # color scheme for selected row
         current_row = 0  # specify the current selected row
 
-        print_menu(stdscr, current_row, menu)  # print the menu
+        print_menu(stdscr, current_row, get_menu())  # print the menu
 
         while True:
             key = stdscr.getch()
             stdscr.keypad(True)  # KEY_UP/LEFT/DOWN/RIGHT not working for unknown reason
             if key in [curses.KEY_UP, 450, curses.KEY_LEFT, 452] and current_row > 0:
                 current_row -= 1
-            elif key in [curses.KEY_DOWN, 456, curses.KEY_RIGHT, 454] and current_row < len(menu)-1:
+            elif key in [curses.KEY_DOWN, 456, curses.KEY_RIGHT, 454] and current_row < len(get_menu())-1:
                 current_row += 1
             elif key == curses.KEY_ENTER or key in [10, 13]:
-                print_center(stdscr, "You selected '{}'".format(menu[current_row]))
+                print_center(stdscr, "You selected '{}'".format(get_menu()[current_row]))
                 if current_row == 1:
                     stdscr.getch()
                     curses.endwin()
                     return [['Chapter 1'], 0]
-                elif 1 < current_row < len(menu) - 2:
-                    submenu = chapters[current_row - 1]
+                elif 1 < current_row < len(get_menu()) - 2:
+                    submenu = get_chapters()[current_row - 1]
                     current_row = 0
                     print_menu(stdscr, current_row, submenu)
                     while True:
@@ -715,41 +877,31 @@ def chapter_selector():  # from nikhilkumarsingh/python-curses-tut
                         print_menu(stdscr, current_row, submenu)
                 else:
                     return [['Old Selector', 0]]
-            print_menu(stdscr, current_row, menu)
+            print_menu(stdscr, current_row, get_menu())
     selected_chapter = curses.wrapper(selector)
     return selected_chapter
 
 
 if __name__ == '__main__':
+    def flatten(lst):
+        flat = []
+        for e in lst:
+            if type(e) == list:
+                flat += flatten(e)
+            else:
+                flat.append(e)
+        return flat
+    
     try:
         import curses
+        funcs = [fname for fname in dir() if fname.startswith('c')]
         selected_chapter = chapter_selector()
         if selected_chapter == [['Old Selector', 0]]:
             old_chapter_selector()
         else:
-            selected_chapter = selected_chapter[0][selected_chapter[1]]
-            print(selected_chapter)
-
-            chapters = [['Chapter 1'],
-                        ['Chapter 2.3', 'Chapter 2.4.1', 'Chapter 2.5 - First', 'Chapter 2.5 - Second', 'Chapter 2.6'],
-                        ['Chapter 3.1 - First', 'Chapter 3.1 - Second', 'Chapter 3.1 - Third', 'Chapter 3.2 - First', 'Chapter 3.2 - Second', 'Chapter 3.3', 'Chapter 3.4'],
-                        ['Chapter 4.1.1 - First', 'Chapter 4.1.1 - Second', 'Chapter 4.1.1 - Third', 'Chapter 4.1.2', 'Chapter 4.2'],
-                        ['Chapter 5.2', 'Chapter 5.3', 'Chapter 5.3.2', 'Chapter 5.4'],
-                        ['Chapter 6', 'Chapter 6.1'],
-                        ['Chapter 7.2 - First', 'Chapter 7.2 - Second', 'Chapter 7.3'],
-                        ['Chapter 9.1', 'Chapter 9.2']]
-            
-            def get_position(element):
-                position = 0
-                for chapter in chapters:
-                    for subchapter in chapter:
-                        position += 1
-                        if element == subchapter:
-                            return position
-
-            chap_position = int(get_position(selected_chapter)) + 8
-            func_to_call = dir()[chap_position]
-            locals()[func_to_call]()
+            selected = selected_chapter[0][selected_chapter[1]]
+            print(selected)
+            locals()[funcs[flatten(get_chapters()).index(selected)]]()
     except ModuleNotFoundError:
         # if you're running this on Windows,
         # and seeing either ModuleNotFoundError or old chapter selector,
