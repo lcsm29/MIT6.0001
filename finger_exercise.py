@@ -289,7 +289,7 @@ def c0411a(str1, str2):
 # chapter 4.1.1 function definitions - write a function to test is_in
 def c0411b():
     def as_in_tester(first_str, second_str):
-        result_as_in = c411a(first_str, second_str)
+        result_as_in = c0411a(first_str, second_str)
         matched = False
         longer_str, shorter_str = '', ''
         if len(first_str) == len(second_str):
@@ -512,6 +512,7 @@ def c061():
     def fib(n):
         """Assumes n int >= 0
         Returns Fibonacci of n"""
+        nonlocal counter
         if n == 2:
             counter += 1
         if n == 0 or n == 1:
@@ -609,7 +610,7 @@ def c092():
             break
 
 
-# Chapter 10.1 abstract data types and classes - Add a method union() satisfying the specification
+# Chapter 10.1 abstract data types and classes - add a method union() satisfying the specification
 class Int_set(object):
     """ An Int_set is a set of integers """
     #Information about the implementation (not the abstraction):
@@ -659,6 +660,13 @@ class Int_set(object):
         for e in self._vals:
             result = result + str(e) + ','
         return f'{{{result[:-1]}}}'
+    
+    def __add__(self, other):
+        """ other is an Int_set. when operator + is used on two Int_set object,
+            it returns new Int_set which contains every element of self and other """
+        new_set = Int_set()
+        new_set._vals = self._vals + other._vals
+        return new_set
 
 
 def c101():
@@ -680,11 +688,23 @@ def c101():
     print(f'self._vals (original Int_set) after union: {union_original.get_members()}')
 
 
-# 10.2 inheritance - Implement a subclass of Person as per specs
-import datetime
-from os import name
+# Chapter 10.1.1 magic methods and hashable types - replace the union method you added to Int_set 
+# by a method that allows clients of Int_set to use the + operator to denote set union.
+def c1011():
+    ori, oth = Int_set(), Int_set()
+    for i in range(10):
+        if i % 2 == 0:
+            oth.insert(i)
+        else:
+            ori.insert(i)
+    print(f'testing __add__ method of Int_set\n'
+          f'ori: {ori.get_members()}\n'
+          f'oth: {oth.get_members()}\n'
+          f'ori + oth: {(ori + oth).get_members()}')
+
+
+# 10.2 inheritance - implement a subclass of Person as per specs
 class Person(object):
-    
     def __init__(self, name):
         """ Assumes name a string. Create a person """
         self._name = name
@@ -710,6 +730,7 @@ class Person(object):
         
     def get_age(self):
         """Returns self's current age in days"""
+        import datetime
         if self._birthday == None:
             raise ValueError
         return (datetime.date.today() - self._birthday).days
@@ -745,7 +766,6 @@ class Politician(Person):
             or at least one of then does not belong to a party """
         return self._party == other.get_party()
 
-
 def c102():
     def take_input(option):
         name, party = input(
@@ -758,6 +778,141 @@ def c102():
     print(f'Original Name: {ori.get_name()}, Original Party: {ori.get_party()}\n'
           f'Other Name: {oth.get_name()}, Other Party: {oth.get_party()}\n'
           f'might_agree(): {ori.might_agree(oth)}')
+
+
+# Chapter 10.2.1 multiple levels of inheritance - what is the value of the following expression?
+# isinstance('ab', str) == isinstance(str, str)
+def c1021():
+    print(isinstance('ab', str) == isinstance(str, str))
+
+
+# Chapter 10.3.1 generators - add to grades a generator that meets the specification
+class MIT_person(Person):
+    
+    _next_id_num = 0 #identification number
+    
+    def __init__(self, name):
+        super().__init__(name)
+        self._id_num = MIT_person._next_id_num
+        MIT_person._next_id_num += 1
+        
+    def get_id_num(self):
+        return self._id_num
+    
+    def __lt__(self, other):
+        return self._id_num < other._id_num
+
+class Student(MIT_person):
+    pass
+
+class UG(Student):
+    def __init__(self, name, class_year):
+        super().__init__(name)
+        self._year = class_year
+
+    def get_class(self):
+        return self._year
+    
+class Grad(Student):
+    pass
+
+class Transfer_student(Student):
+
+    def __init__(self, name, from_school):
+        MIT_person.__init__(self, name)
+        self._from_school = from_school
+
+    def get_old_school(self):
+        return self._from_school
+
+class Grades(object):
+
+    def __init__(self):
+        """Create empty grade book"""
+        self._students = []
+        self._grades = {}
+        self._is_sorted = True
+
+    def add_student(self, student):
+        """Assumes: student is of type Student
+           Add student to the grade book"""
+        if student in self._students:
+            raise ValueError('Duplicate student')
+        self._students.append(student)
+        self._grades[student.get_id_num()] = []
+        self._is_sorted = False
+
+    def add_grade(self, student, grade):
+        """Assumes: grade is a float
+           Add grade to the list of grades for student"""
+        try:
+            self._grades[student.get_id_num()].append(grade)
+        except:
+            raise ValueError('Student not in mapping')
+
+    def get_grades(self, student):
+        """Return a list of grades for student"""
+        try:
+            return self._grades[student.get_id_num()][:]
+        except:
+            raise ValueError('Student not in mapping')
+    ''' older version (non-generator) 
+    def get_students(self):
+        """Return a sorted list of the students in the grade book"""
+        if not self._is_sorted:
+            self._students.sort()
+            self._is_sorted = True
+        return self._students[:]
+    '''
+    def get_students(self): #new version from later in chapter
+        """ Return the students in the grade book one at a time
+            in alphabetical order """
+        if not self._is_sorted:
+            self._students.sort()
+            self._is_sorted = True
+        for s in self._students:
+            yield s
+    
+    def get_students_above(self, grade):
+        """ Return the students a mean grade > g one at a time """
+        for s in self._students:
+            if sum(self.get_grades(s)) / len(self.get_grades(s)) > grade:
+                yield s
+
+def grade_report(course):
+    """Assumes course is of type Grades"""
+    report = ''
+    for s in course.get_students():
+        tot = 0.0
+        num_grades = 0
+        for g in course.get_grades(s):
+            tot += g
+            num_grades += 1
+        try:
+            average = tot/num_grades
+            report = f"{report}\n{s}'s mean grade is {average}"
+        except ZeroDivisionError:
+            report = f"{report}\n{s} has no grades"
+    return report
+
+def c1031():
+    import random
+    students = [
+        Grad('Al'), Grad('Aram'), Grad('Bernie'), Grad('Dembe'), 
+        Grad('Harold'), Grad('Liz'), Grad('Meera'), Grad('Ray'), Grad('Tom')]
+    gr = Grades()
+    for s in students:
+        gr.add_student(s)
+        for _ in range(20):
+            gr.add_grade(s, random.random() * 5)
+        print(f'{s} (Grade {sum(gr.get_grades(s)) / len(gr.get_grades(s)):.02f}), ', end='')
+    print()
+    for g in range(1, 10):
+        print(f'Grade above {g/2}: ', end='')
+        for s in gr.get_students_above(g/2):
+            print(f'{s} ', end='')
+        print()
+
 
 
 # old chapter caller
@@ -810,7 +965,7 @@ def get_chapters():
         ['Chapter 6', 'Chapter 6.1'],
         ['Chapter 7.2 - First', 'Chapter 7.2 - Second', 'Chapter 7.3'],
         ['Chapter 9.1', 'Chapter 9.2'],
-        ['Chapter 10.1', 'Chapter 10.2'],
+        ['Chapter 10.1', 'Chapter 10.1.1','Chapter 10.2', 'Chapter 10.2.1', 'Chapter 10.3.1'],
     ]
     return chapters
 
