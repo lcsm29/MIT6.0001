@@ -10,4 +10,4 @@
     
 ## Sources
 * [Problem Sets](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/assignments/) and [Lecture Code](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/lecture-slides-code/) - MIT OCW 6.0001 (Fall 2016 Course)
-* [Finger Exercises](https://mitpress.mit.edu/books/introduction-computation-and-programming-using-python-third-edition) - Introduction to Computation and Programming Using Python, Third Edition, John V. Guttag, 2021 ([Kindle Edition](https://www.amazon.com/dp/B08C6YH4XK))
+* [Finger Exercises](https://mitpress.mit.edu/books/introduction-computation-and-programming-using-python-third-edition) ([Code](https://github.com/guttag/Intro-to-Computation-and-Programming)) - Introduction to Computation and Programming Using Python, Third Edition, John V. Guttag, 2021 ([Kindle Edition](https://www.amazon.com/dp/B08C6YH4XK))
