@@ -914,6 +914,58 @@ def c1031():
         print()
 
 
+# Chapter 11.2 asymptotic notation - what is the symptotic complexity of each of the following functions?
+def c112():
+    import dis
+    from random import randint
+    def g(L, e):
+        num_iterations = 0
+        """L a list of ints, e is an int"""
+        for i in range(100):
+            for e1 in L:
+                num_iterations += 1
+                if e1 == e:
+                    print(f'{num_iterations:,}', end='')
+                    return True
+        print(f'{num_iterations:,}', end='')
+        return False
+
+    def h(L, e):
+        """L a list of ints, e is an int"""
+        num_iterations = 0
+        for i in range(e):
+            for e1 in L:
+                num_iterations += 1
+                if e1 == e:
+                    print(f'{num_iterations:,}', end='')
+                    return True
+        print(f'{num_iterations:,}', end='')
+        return False
+    
+    L = [i for i in range(1, 1001)]
+
+    e = randint(1, 1000)
+    print(f'L: [i for i in range(1, 1001)], e: {e}')
+    print(f'\ng(L, e): number of iterations ', end ='')
+    print(f'(== e), result {g(L, e)}')
+    print('-' * 70)
+    dis.dis('g(L, e)')
+    print(f'\nh(L, e): number of iterations ', end ='')
+    print(f'(== e), result {h(L, e)}')
+    print('-' * 70)
+    dis.dis('h(L, e)')
+
+    e = randint(1001, 2000)
+    print(f'L: [i for i in range(1, 1001)], e: {e}')
+    print(f'\ng(L, e): number of iterations ', end ='')
+    print(f'(== 100 * len(L)), result {g(L, e)}')
+    print('-' * 70)
+    dis.dis('g(L, e)')
+    print(f'\nh(L, e): number of iterations ', end ='')
+    print(f'(== e * len(L)), result {h(L, e)}')
+    print('-' * 70)
+    dis.dis('h(L, e)')
+
 
 # old chapter caller
 def old_chapter_selector():
@@ -950,6 +1002,7 @@ def get_menu():
         'Chapter 7',
         'Chapter 9',
         'Chapter 10',
+        'Chapter 11',
         'Old Selector',
         'Exit'
     ]
@@ -966,6 +1019,7 @@ def get_chapters():
         ['Chapter 7.2 - First', 'Chapter 7.2 - Second', 'Chapter 7.3'],
         ['Chapter 9.1', 'Chapter 9.2'],
         ['Chapter 10.1', 'Chapter 10.1.1','Chapter 10.2', 'Chapter 10.2.1', 'Chapter 10.3.1'],
+        ['Chapter 11.2'],
     ]
     return chapters
 
